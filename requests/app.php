@@ -32,7 +32,7 @@
                 </a>
             </div>
             <div data-role="content">
-                <div data-role="navbar" data-iconpos="top">
+                <div data-role="navbar">
                     <ul>
                         <li>
                             <a href="" data-theme="" data-icon="" class="ui-btn-active ui-state-persist">
