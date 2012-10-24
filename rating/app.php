@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>
+        </title>
+        <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/jquery.mobile/1.1.1/jquery.mobile-1.1.1.min.css" />
+        <link rel="stylesheet" href="my.css" />
+        <style>
+            /* App custom styles */
+        </style>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js">
+        </script>
+        <script src="https://ajax.aspnetcdn.com/ajax/jquery.mobile/1.1.1/jquery.mobile-1.1.1.min.js">
+        </script>
+        <script src="my.js">
+        </script>
+    </head>
+    <body>
+        <!-- Home -->
+        <div data-role="page" id="page1">
+            <div data-theme="a" data-role="header">
+                <h3>
+                    Rating
+                </h3>
+            </div>
+            <div data-role="content">
+                <h2>
+                    Now that you're back, tell us about your ride:
+                </h2>
+                <form action="../postrating/app.php" method="POST" data-ajax="false">
+                    <div data-role="fieldcontain">
+                        <fieldset data-role="controlgroup" data-type="horizontal">
+                            <legend>
+                                Would you ride with this person again?
+                            </legend>
+                            <input id="radio4" name="" value="yes" type="radio" />
+                            <label for="radio4">
+                                Yes
+                            </label>
+                            <input id="radio5" name="" value="maybe" type="radio" />
+                            <label for="radio5">
+                                Maybe
+                            </label>
+                            <input id="radio6" name="" value="no" type="radio" />
+                            <label for="radio6">
+                                No
+                            </label>
+                        </fieldset>
+                    </div>
+                    <div data-role="fieldcontain">
+                        <fieldset data-role="controlgroup">
+                            <label for="textarea2">
+                                Comments? (Optional)
+                            </label>
+                            <textarea name="comments" id="textarea2" placeholder="">
+                            </textarea>
+                        </fieldset>
+                    </div>
+                    <input type="submit" value="Submit" />
+                </form>
+            </div>
+        </div>
+        <script>
+            //App custom javascript
+        </script>
+    </body>
+</html>
