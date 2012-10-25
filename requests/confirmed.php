@@ -21,32 +21,36 @@
         <!-- Home -->
         <div data-role="page" id="page1">
             <div data-theme="a" data-role="header">
-                <a data-role="button" href="../main/app.php" class="ui-btn-right">
-                    Menu
-                </a>
-                <h3>
-                    Confirmation
-                </h3>
                 <a data-role="button" data-rel="back" href="#page1" class="ui-btn-left">
                     Back
                 </a>
+                <h3>
+                    Requests
+                </h3>
+                <a data-role="button" href="../main/app.php" class="ui-btn-right">
+                    Menu
+                </a>
             </div>
             <div data-role="content">
-                <h2>
-                    Thanks for submitting your request.
-                </h2>
-                <h4>
-                    What do you want to do next?
-                </h4>
-                <a data-role="button" data-theme="b" href="#page1">
-                    Send more requests
-                </a>
-                <a data-role="button" data-theme="b" href="../requests/new.php">
-                    Go request menu
-                </a>
-                <a data-role="button" data-theme="b" href="../main/app.php">
-                    Go to main menu
-                </a>
+                <div data-role="navbar">
+                    <ul>
+                        <li>
+                            <a href="new.php" data-theme="">
+                                New
+                            </a>
+                        </li>
+                        <li>
+                            <a href="pending.php" data-theme="">
+                                Pending
+                            </a>
+                        </li>
+                        <li>
+                            <a href="" data-theme="" class="ui-btn-active ui-state-persist">
+                                Confirmed
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
         <script>
