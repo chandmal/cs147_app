@@ -60,8 +60,9 @@
 		<a href="#popuptest" class="ui-content"  data-role="button" data-theme="b" data-rel="popup" data-position-to="window">
 			[Name] wants to share! (one that's been looked at)
 		</a>
-		<div data-role="popup" id="popuptest" href="" data-overlay-theme="a">
-    			<div data-theme="d">
+		<div data-role="popup" id="popuptest" href="" data-overlay-theme="a" data-dismissable="false">
+			<a href="#" data-rel="back" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext" class="ui-btn-right">Close</a>
+    			<div data-theme="d" data-dismissable="false">
        			 <h2>
        			     [Name] [Last name]
        			 </h2>
@@ -69,19 +70,20 @@
 				<h4> Cost: $[Cost] </h4>
 				<h4> Rating: [Rating] </h4>
 				<a href="#../confirm/passengerconfirm.php" data-role="button" data-inline="true" data-theme="b">Accept and Pay</a>
-				<a href="" data-role="button" data-inline="true">Cancel</a>
+				<a href="" data-rel="back" data-role="button" data-inline="true">Cancel</a>
     			</div>
 		</div>
-		<div data-role="popup" id="popuptest2" href="#../popup/moreinforequest.php" data-overlay-theme="a">
-    			<div data-theme="d">
+		<div data-role="popup" id="popuptest2" href="#../popup/moreinforequest.php" style="max-width: 610px;" data-overlay-theme="a" data-dismissable="false" data-disabled="false" aria-disabled="false">
+			<a href="#" data-rel="back" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext" class="ui-btn-right">Close</a>
+    			<div data-theme="d" data-dismissable="false">
        			 <h2>
        			     [Name] [Last name]
        			 </h2>
 				<h4> Time: From [Start] to [End] </h4>
 				<h4> Willing to pay: $[Price] </h4>
 				<h4> Rating: [Rating] </h4>
-				<a href="#../confirm/driverconfirm.php" data-role="button" data-inline="true" data-theme="b">Accept and Share</a>
-				<a href="" data-role="button" data-inline="true">Cancel</a>
+				<a href="#../confirm/driverconfirm.php" data-role="button" data-inline="true" data-theme="b">Accept</a>
+				<a href="" data-rel="back" data-role="button" data-inline="true">Cancel</a>
     			</div>
 		</div>	
 	

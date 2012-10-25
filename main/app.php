@@ -36,7 +36,7 @@
                 <h2>
                     Hi, [name]!
                 </h2>
-                <form action="">
+                <form action="../tadirections/app.php">
                     <div data-role="fieldcontain">
                         <fieldset data-role="controlgroup" data-type="horizontal">
                             <legend>

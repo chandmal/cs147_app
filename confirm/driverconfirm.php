@@ -42,7 +42,7 @@
                 <h4>
                     What do you want to do next?
                 </h4>
-                <a data-role="button" data-theme="b" href="">
+                <a data-role="button" data-theme="b" href="http://stanford.edu/~holstein/cgi-bin/map/app.html">
                     Choose more destinations
                 </a>
                 <a data-role="button" data-theme="b" href="../requests/new.php">
