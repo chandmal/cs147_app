@@ -23,7 +23,7 @@ session_start();
 		<script type="text/javascript"
 			src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBtYm5TmCLumSzzGZjqw_ArsHWcBVEm6b0&sensor=true">
 		</script>
-        <script src="http://jquerymobile.com/demos/1.2.0-alpha.1/js/jquery.mobile-1.2.0-alpha.1.js">
+        <script src="jquery.mobile-1.2.0-alpha.1.js">
         </script>
     </head>
     <body>
@@ -31,8 +31,14 @@ session_start();
         <div data-role="page" id="page1">
             <div data-theme="a" data-role="header" style="z-index:2;">
                 <h3 style="margin-left: 0px; margin-right: 0px">
-                    Click Your Destination
+                    Interact
                 </h3>
+		  <a data-role="button" href="../tadirections/app.php" class="ui-btn-left">
+                    Directions
+                </a>
+		  <a data-role="button" href="../main/app.php" class="ui-btn-right">
+                    Menu
+                </a>
             </div>
 			
 			<div id="test">
@@ -77,7 +83,6 @@ session_start();
 					<?php
 						}
 					?>
-
 				</select></td>
 				<td><select id="end_min" name="end_min" data-mini="true">
 					<option name=":00">:00</option>
@@ -99,18 +104,18 @@ session_start();
                 		</h3>
             		</div>
             		<div data-role="content">
-                		<h2>
+                		<h3>
 					<table>
 						<tr><td>
 							Rate:</td><td><!-- PHP -->$<span id="trip_price">5</span>
 						</td></tr>
 						<tr><td>
-							Rating:</td><td style="text-align:center"><span id="trip_rating">94%</span></td><td><img style="width:80px" src="thumbs_up.png" /></td></tr>
+							Rating:</td><td style="text-align:center"><span id="trip_rating">94%</span></td><td><img style="width:60px" src="thumbs_up.png" /></td></tr>
 							<tr><td>Leave:</td><td><span id="trip_leave_time"></span></td></tr>
 							<tr><td height="9px"> </td></tr>
 							<tr><td>Return:</td><td><span id="trip_return_time"></span></td></tr>
 					</table>
-                		</h2>
+                		</h3>
                 		<a data-role="button" data-theme="b" onclick="$('#trip_popup').popup('close'); alert('Request made!')">
                     			Request this <?= $_SESSION['user_type'] == "driver" ? "Passenger" : "Ride" ?>
                 		</a>
@@ -125,18 +130,18 @@ session_start();
                 		</h3>
             		</div>
             		<div data-role="content">
-                		<h2>
+                		<h3>
 					<table>
 						<tr><td>
 							Rate:</td><td><!-- PHP -->$<span id="my_trip_price">5</span>
 						</td></tr>
 						<tr><td>
-							Rating:</td><td style="text-align:center"><span id="my_trip_rating">94%</span></td><td><img style="width:80px" src="thumbs_up.png" /></td></tr>
+							Rating:</td><td style="text-align:center"><span id="my_trip_rating">94%</span></td><td><img style="width:50px" src="thumbs_up.png" /></td></tr>
 							<tr><td>Leave:</td><td><span id="my_trip_leave_time"></span></td></tr>
 							<tr><td height="9px"> </td></tr>
 							<tr><td>Return:</td><td><span id="my_trip_return_time"></span></td></tr>
 					</table>
-                		</h2>
+                		</h3>
                 		<a data-role="button" data-theme="b" onclick="$('#my_trip_popup').popup('close')">
                     			Back To Map
                 		</a>
@@ -158,12 +163,10 @@ session_start();
             <div data-role="content">
                 <h4>
 			<? if($_SESSION['user_type'] == "driver") { ?>
-						This is my off-campus destination. I want <br/>
-						to share my route, so passengers know.
+						This is my off-campus destination. I want to share my route, so passengers know.
 					<? } else { ?>
-						This is where I want to go.  I'm sharing <br/>
-						this so that someone with a ride may <br/>
-						find me.
+						This is where I want to go.  I want to share this,
+						so drivers know.
 					<? } ?>
                 </h4>
                     <div data-role="fieldcontain">

@@ -37,13 +37,17 @@ $_SESSION['user_type'] = $_POST['user_type'];
             </div>
             <div data-role="content">
                 <h2>
-                    For the TAs:
+                    Using the Map:
                 </h2>
                 <h4>
-                    Here are some directions to ensure that using the map portion of our app goes smoothly.
+			<ul>
+				<li>To view an existing destination, tap on an exiting marker on the map.</li><br/>
+				<li>To create a new destination, tap where you want to go.</li><br/>
+				<li>To view your own destinations, tap on your green destination markers.</li>
+			</ul>
                 </h4>
 
-		  <a href="../map/app.php" data-role="button" data-theme="b"> Proceed </a>
+		  <a href="../map/app.php" rel="external" data-role="button" data-theme="b"> Proceed </a>
             </div>
         </div>
         <script>

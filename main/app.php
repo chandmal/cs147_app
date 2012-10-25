@@ -36,17 +36,17 @@
                 <h2>
                     Hi, [name]!
                 </h2>
-                <form action="../tadirections/app.php">
+                <form action="../tadirections/app.php" method="POST">
                     <div data-role="fieldcontain">
                         <fieldset data-role="controlgroup" data-type="horizontal">
                             <legend>
                                 I am a:
                             </legend>
-                            <input id="radio3" name="" value="driver" type="radio" />
+                            <input id="radio3" name="user_type" value="driver" type="radio" />
                             <label for="radio3">
                                 Driver
                             </label>
-                            <input id="radio4" name="" value="rider" type="radio" />
+                            <input id="radio4" name="user_type" value="rider" type="radio" />
                             <label for="radio4">
                                 Rider
                             </label>
