@@ -1,3 +1,9 @@
+<?php
+
+session_start();
+
+?>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -36,17 +42,26 @@
 				<span style="padding-right: 5px; color: white; text-shadow: 0 0 0 white;">Leave</span>
 				</td>
 				<td><select id="start_hour" name="start_hour" data-mini="true">
-					<option>7</option>
+					<option name="12">12</option>
+					<?php
+						for($i = 1; $i <= 12; $i++) { ?>
+							<option name="<?php echo $i ?>"><?php echo $i ?></option>
+					<?php
+						}
+					?>
 				</select></td>
 				<td>
 				<select id="start_min" name="start_min" data-mini="true">
-					<option>7</option>
+					<option name=":00">:00</option>
+					<option name=":15">:15</option>
+					<option name=":30">:30</option>
+					<option name=":45">:45</option>
 				</select>
 				</td>
 				<td>
 				<select id="start_ampm" name="start_ampm" data-mini="true">
-					<option>am</option>
-					<option>pm</option>
+					<option name="am">am</option>
+					<option name="pm">pm</option>
 				</select>
 				</td>
 				</tr><tr>
@@ -55,33 +70,49 @@
 				</td>
 				<td>
 				<select id="end_hour" name="end_hour" data-mini="true">
-					<option>7</option>
+					<option name="12">12</option>
+					<?php
+						for($i = 1; $i <= 12; $i++) { ?>
+							<option name="<?php echo $i ?>"><?php echo $i ?></option>
+					<?php
+						}
+					?>
+
 				</select></td>
 				<td><select id="end_min" name="end_min" data-mini="true">
-					<option>7</option>
+					<option name=":00">:00</option>
+					<option name=":15">:15</option>
+					<option name=":30">:30</option>
+					<option name=":45">:45</option>
 				</select></td>
 				<td><select id="end_ampm" name="end_ampm" data-mini="true">
-					<option>am</option>
-					<option>pm</option>
+					<option name="am">am</option>
+					<option name="pm">pm</option>
 				</select></td></tr></table>
 			</div>
 			<div id="map_canvas" style="width:100%; height: 100%"></div>
 			
 		<div data-role="popup" id="trip_popup" href="#../popup/app.php" data-overlay-theme="a">
             		<div data-theme="d" data-role="header">
-                		<h3>
-                    			Go Here?
+                		<h3 style="margin-left: 0; margin-right: 0">
+					Check Out This <?= $_SESSION['user_type'] == "driver" ? "Passenger" : "Ride" ?>
                 		</h3>
             		</div>
             		<div data-role="content">
                 		<h2>
-							Price: <!-- PHP --> $<span id="trip_price">5</span><br/>
-							Rating: <span id="trip_rating">4.8/5</span><br/>
-							Leave: <span id="trip_leave_time"></span><br/>
-							Return: <span id="trip_return_time"></span>
+					<table>
+						<tr><td>
+							Rate:</td><td><!-- PHP -->$<span id="trip_price">5</span>
+						</td></tr>
+						<tr><td>
+							Rating:</td><td style="text-align:center"><span id="trip_rating">94%</span></td><td><img style="width:80px" src="thumbs_up.png" /></td></tr>
+							<tr><td>Leave:</td><td><span id="trip_leave_time"></span></td></tr>
+							<tr><td height="9px"> </td></tr>
+							<tr><td>Return:</td><td><span id="trip_return_time"></span></td></tr>
+					</table>
                 		</h2>
-                		<a data-role="button" data-theme="b" href="../main/app.php">
-                    			Request to <!-- PHP --> ... a ride!
+                		<a data-role="button" data-theme="b" onclick="$('#trip_popup').popup('close'); alert('Request made!')">
+                    			Request this <?= $_SESSION['user_type'] == "driver" ? "Passenger" : "Ride" ?>
                 		</a>
 						<input onclick="$('#trip_popup').popup('close')" type="submit" value="Cancel" />
             		</div>
@@ -90,19 +121,28 @@
 		<div data-role="popup" id="new_trip_popup" data-overlay-theme="a">
             		<div data-theme="a" data-role="header">
                 <h3 style="margin-left: 0px; margin-right: 0px">
-                    <!-- Vary message based on PHP -->
-					New Ride
+                    <? if($_SESSION['user_type'] == "driver") { ?>
+						Share Your Ride
+					<? } else { ?>
+						Request a Ride
+					<? } ?>
                 </h3>
             </div>
             <div data-role="content">
-                <h2>
-					<!-- PHP -->
-                    Varied
-                </h2>
+                <h4>
+			<? if($_SESSION['user_type'] == "driver") { ?>
+						This is my off-campus destination. I want <br/>
+						to share my route, so passengers know.
+					<? } else { ?>
+						This is where I want to go.  I'm sharing <br/>
+						this so that someone with a ride may <br/>
+						find me.
+					<? } ?>
+                </h4>
                     <div data-role="fieldcontain">
                         <fieldset data-role="controlgroup">
                             <label for="slider3">
-                                Rate:
+                                Pay:
                             </label>
                             <input id="new_trip_rate" type="range" name="slider" value="15" min="0" max="50" data-highlight="false" />
                         </fieldset>
@@ -121,7 +161,7 @@
 		function initialize() {
 		  
 		  var mapOptions = {
-			zoom: 20,
+			zoom: 19,
 			center: new google.maps.LatLng(37.394137078995094, -122.07964084788512),
 			zoomControl: true,
 			panControl: false,
@@ -152,7 +192,6 @@
 		
 	var new_trip_location;
 	function createTrip(location) {
-		alert(location)
 		/*var marker = new google.maps.Marker({
 		position: location,
 		map: map
@@ -173,14 +212,14 @@
 	
 	function finalizeNewTrip() {
 		//php for is_rider
-		var leave_time = $("#start_hour").val() + $("#start_min").val() + $("start_ampmp").val();
-		var return_time = $("#end_hour").val() + $("#end_min").val() + $("end_ampmp").val();
+		var leave_time = $("#start_hour").val() + $("#start_min").val() + $("#start_ampm").val();
+		var return_time = $("#end_hour").val() + $("#end_min").val() + $("#end_ampm").val();
 		new Trip($("#new_trip_rate").val(), true, new_trip_location, leave_time, return_time);
 	}
 	
-	function Trip(rate, is_rider, location, leave_time, return_time) {
+	function Trip(rate, user_type, location, leave_time, return_time) {
 		this.rate = rate;
-		this.is_rider = is_rider;
+		this.user_type = user_type;
 		this.location = location;
 		this.leave_time = leave_time;
 		this.return_time = return_time;
@@ -195,6 +234,7 @@
 			$('#trip_popup').popup("open", { overlayTheme: "a" });
 			$('#trip_leave_time').html(leave_time);
 			$('#trip_return_time').html(return_time);
+
 			map.setCenter(marker.getPosition());
 		});
 	}
