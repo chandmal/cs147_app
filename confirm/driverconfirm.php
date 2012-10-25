@@ -4,6 +4,7 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>
+		Confirmation
         </title>
         <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/jquery.mobile/1.1.1/jquery.mobile-1.1.1.min.css" />
         <link rel="stylesheet" href="my.css" />
@@ -33,13 +34,16 @@
             </div>
             <div data-role="content">
                 <h2>
-                    Thanks for submitting your request.
+                    Thanks for confirming. 
                 </h2>
+		  <h4>
+		      Sit tight and wait for payment confirmation. When payment has been received, we'll let you know.
+		  </h4>
                 <h4>
                     What do you want to do next?
                 </h4>
-                <a data-role="button" data-theme="b" href="#page1">
-                    Send more requests
+                <a data-role="button" data-theme="b" href="">
+                    Choose more destinations
                 </a>
                 <a data-role="button" data-theme="b" href="../requests/new.php">
                     Go request menu

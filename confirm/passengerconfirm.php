@@ -4,6 +4,7 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>
+		Confirmation
         </title>
         <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/jquery.mobile/1.1.1/jquery.mobile-1.1.1.min.css" />
         <link rel="stylesheet" href="my.css" />
@@ -35,10 +36,13 @@
                 <h2>
                     Thanks for submitting your request.
                 </h2>
+		  <h4>
+		      Now you're all set with a driver. They'll pick you up at the time specified.
+		  </h4>
                 <h4>
                     What do you want to do next?
                 </h4>
-                <a data-role="button" data-theme="b" href="#page1">
+                <a data-role="button" data-theme="b" href="">
                     Send more requests
                 </a>
                 <a data-role="button" data-theme="b" href="../requests/new.php">

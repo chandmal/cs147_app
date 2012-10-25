@@ -105,7 +105,7 @@
             		
 		</form>
 			
-		<div data-role="popup" id="popuptest" href="#../popup/app.php" data-overlay-theme="a">
+		<div data-role="popup" id="popuptest" href="#../popup/signupconf.php" data-overlay-theme="a">
             		<div data-theme="d" data-role="header">
                 		<h3>
                     			Confirm
