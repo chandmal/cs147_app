@@ -1,3 +1,10 @@
+<?=
+
+session_start();
+$_SESSION['user_type'] = $_POST['user_type'];
+
+?>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -36,7 +43,7 @@
                     Here are some directions to ensure that using the map portion of our app goes smoothly.
                 </h4>
 
-		  <a href="http://stanford.edu/~holstein/cgi-bin/map/app.html" data-role="button" data-theme="b"> Proceed </a>
+		  <a href="../map/app.php" data-role="button" data-theme="b"> Proceed </a>
             </div>
         </div>
         <script>
