@@ -92,7 +92,7 @@ session_start();
 			</div>
 			<div id="map_canvas" style="width:100%; height: 100%"></div>
 			
-		<div data-role="popup" id="trip_popup" href="#../popup/app.php" data-overlay-theme="a">
+		<div data-role="popup" id="trip_popup" data-overlay-theme="a">
             		<div data-theme="d" data-role="header">
                 		<h3 style="margin-left: 0; margin-right: 0">
 					Check Out This <?= $_SESSION['user_type'] == "driver" ? "Passenger" : "Ride" ?>
@@ -117,6 +117,33 @@ session_start();
 						<input onclick="$('#trip_popup').popup('close')" type="submit" value="Cancel" />
             		</div>
 		</div>	
+
+		<div data-role="popup" id="my_trip_popup" data-overlay-theme="a">
+            		<div data-theme="d" data-role="header">
+                		<h3 style="margin-left: 0; margin-right: 0">
+					My <?= $_SESSION['user_type'] == "driver" ? "Trip" : "Ride" ?>
+                		</h3>
+            		</div>
+            		<div data-role="content">
+                		<h2>
+					<table>
+						<tr><td>
+							Rate:</td><td><!-- PHP -->$<span id="my_trip_price">5</span>
+						</td></tr>
+						<tr><td>
+							Rating:</td><td style="text-align:center"><span id="my_trip_rating">94%</span></td><td><img style="width:80px" src="thumbs_up.png" /></td></tr>
+							<tr><td>Leave:</td><td><span id="my_trip_leave_time"></span></td></tr>
+							<tr><td height="9px"> </td></tr>
+							<tr><td>Return:</td><td><span id="my_trip_return_time"></span></td></tr>
+					</table>
+                		</h2>
+                		<a data-role="button" data-theme="b" onclick="$('#my_trip_popup').popup('close')">
+                    			Back To Map
+                		</a>
+					<input id="my_trip_cancel" type="submit" value="Cancel This <?= $_SESSION['user_type'] == "driver" ? "Trip" : "Ride" ?>"/>
+            		</div>
+		</div>	
+
 		
 		<div data-role="popup" id="new_trip_popup" data-overlay-theme="a">
             		<div data-theme="a" data-role="header">
@@ -171,7 +198,7 @@ session_start();
 		  document.getElementById('map_canvas').style.height = $(document).height() - $('#test').height() - 44 + "px"
 		  map = new google.maps.Map(document.getElementById('map_canvas'), mapOptions);
 
-		  new Trip('15', true, map.getCenter(), "11:00pm", "11:30pm");	
+		  new Trip('15', false, map.getCenter(), "11:00pm", "11:30pm");	
 
 		  /*google.maps.event.addListener(marker, 'click', function() {
 			$('#trip_popup').popup("open", { overlayTheme: "a" });
@@ -217,26 +244,46 @@ session_start();
 		new Trip($("#new_trip_rate").val(), true, new_trip_location, leave_time, return_time);
 	}
 	
-	function Trip(rate, user_type, location, leave_time, return_time) {
+	function Trip(rate, is_yours, location, leave_time, return_time) {
 		this.rate = rate;
-		this.user_type = user_type;
+		this.is_yours = is_yours;
 		this.location = location;
 		this.leave_time = leave_time;
 		this.return_time = return_time;
-		
-		var marker = new google.maps.Marker({
-			position: location,
-			map: map
-		});
-		
-		google.maps.event.addListener(marker, 'click', function() {
-			$("#trip_price").html(rate);
-			$('#trip_popup').popup("open", { overlayTheme: "a" });
-			$('#trip_leave_time').html(leave_time);
-			$('#trip_return_time').html(return_time);
+					
+		if(!is_yours) {
+			var marker = new google.maps.Marker({
+				position: location,
+				map: map
+			});
+			http://maps.google.com/mapfiles/ms/icons/green-dot.png'
+			
+			google.maps.event.addListener(marker, 'click', function() {
+				map.setCenter(marker.getPosition());
+				$("#trip_price").html(rate);
+				$('#trip_leave_time').html(leave_time);
+				$('#trip_return_time').html(return_time);
+				$('#trip_popup').popup("open", { overlayTheme: "a" });
+			});
+		} else {
+			var marker = new google.maps.Marker({
+				position: location,
+				map: map,
+				icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'
+			});
 
-			map.setCenter(marker.getPosition());
-		});
+			google.maps.event.addListener(marker, 'click', function() {
+				map.setCenter(marker.getPosition());
+				$("#my_trip_price").html(rate);
+				$('#my_trip_leave_time').html(leave_time);
+				$('#my_trip_return_time').html(return_time);
+				$('#my_trip_popup').popup("open", { overlayTheme: "a" });
+				$('#my_trip_cancel').click( function() {
+					marker.setMap(null);
+					$('#my_trip_popup').popup('close');
+				});
+			});
+		}
 	}
 	
         </script>
