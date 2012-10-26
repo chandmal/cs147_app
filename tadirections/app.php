@@ -37,11 +37,11 @@ $_SESSION['user_type'] = $_POST['user_type'];
             </div>
             <div data-role="content">
                 <h2>
-                    Using the Map:
+                    How To Use the Map:
                 </h2>
                 <h4>
 			<ul>
-				<li>To view an existing destination, tap on an exiting marker on the map.</li><br/>
+				<li>To view an existing destination, tap on an existing marker on the map.</li><br/>
 				<li>To create a new destination, tap where you want to go.</li><br/>
 				<li>To view your own destinations, tap on your green destination markers.</li>
 			</ul>

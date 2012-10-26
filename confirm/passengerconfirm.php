@@ -42,10 +42,10 @@
                 <h4>
                     What do you want to do next?
                 </h4>
-                <a data-role="button" data-theme="b" href="http://stanford.edu/~holstein/cgi-bin/map/app.html">
+                <a data-role="button" data-theme="b" rel="external" href="../map/app.php">
                     Send more requests
                 </a>
-                <a data-role="button" data-theme="b" href="../requests/new.php">
+                <a data-role="button" rel="external" data-theme="b" href="../requests/new.php">
                     Go request menu
                 </a>
                 <a data-role="button" data-theme="b" href="../main/app.php">

@@ -1,6 +1,9 @@
 <?php
 
 session_start();
+if(!$_SESSION['user_type']) {
+	$_SESSION['user_type'] = "rider";
+}
 
 ?>
 
@@ -116,7 +119,7 @@ session_start();
 							<tr><td>Return:</td><td><span id="trip_return_time"></span></td></tr>
 					</table>
                 		</h3>
-                		<a data-role="button" data-theme="b" onclick="$('#trip_popup').popup('close'); alert('Request made!')">
+                		<a data-role="button" data-theme="b" onclick="$('#trip_popup').popup('close'); alert('Your request was sent!  When your request is approved, you will receive a notification on your home page.  Click okay to continue browsing the map.')">
                     			Request this <?= $_SESSION['user_type'] == "driver" ? "Passenger" : "Ride" ?>
                 		</a>
 						<input onclick="$('#trip_popup').popup('close')" type="submit" value="Cancel" />
@@ -245,6 +248,7 @@ session_start();
 		var leave_time = $("#start_hour").val() + $("#start_min").val() + $("#start_ampm").val();
 		var return_time = $("#end_hour").val() + $("#end_min").val() + $("#end_ampm").val();
 		new Trip($("#new_trip_rate").val(), true, new_trip_location, leave_time, return_time);
+		alert('Your trip was posted!  If someone wants to Share-A-Ride with you, you will receive a notification on your home page.  Click okay to continue browsing the map.');
 	}
 	
 	function Trip(rate, is_yours, location, leave_time, return_time) {
@@ -268,6 +272,7 @@ session_start();
 				$('#trip_return_time').html(return_time);
 				$('#trip_popup').popup("open", { overlayTheme: "a" });
 			});
+
 		} else {
 			var marker = new google.maps.Marker({
 				position: location,

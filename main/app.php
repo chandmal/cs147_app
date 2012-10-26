@@ -54,7 +54,7 @@
                     </div>
                     <input type="submit" data-theme="b" value="Where to?" />
                 </form>
-		<a data-role="button" data-theme="b" href="../requests/new.php" >
+		<a data-role="button" rel="external" data-theme="b" href="../requests/new.php">
 			Check requests
 		</a>
             </div>
