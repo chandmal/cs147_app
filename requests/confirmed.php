@@ -36,12 +36,12 @@
                     <ul>
                         <li>
                             <a href="new.php" data-theme="">
-                                New
+                                To you
                             </a>
                         </li>
                         <li>
                             <a href="pending.php" data-theme="">
-                                Pending
+                                From you
                             </a>
                         </li>
                         <li>
