@@ -38,12 +38,12 @@
                     <ul>
                         <li>
                             <a href="" data-theme="" class="ui-btn-active ui-state-persist">
-                                New
+                                To you
                             </a>
                         </li>
                         <li>
                             <a href="pending.php" data-theme="">
-                                Pending
+                                From you
                             </a>
                         </li>
                         <li>
