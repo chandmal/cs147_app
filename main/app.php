@@ -1,3 +1,12 @@
+<?php
+
+$path = '/afs/ir.stanford.edu/users/h/o/holstein/cgi-bin/dev/cs147_app/lib';
+set_include_path(get_include_path() . PATH_SEPARATOR . $path);
+require_once('db.php');
+require_once('user.php');
+
+?>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -34,7 +43,7 @@
             </div>
             <div data-role="content">
                 <h2>
-                    Hi, [name]!
+                    Hi, <?= $user['first_name'] ?>!
                 </h2>
                 <form action="../tadirections/app.php" method="POST">
                     <div data-role="fieldcontain">

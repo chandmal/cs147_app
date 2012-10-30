@@ -1,9 +1,9 @@
 <?php
 
-session_start();
-if(!$_SESSION['user_type']) {
-	$_SESSION['user_type'] = "rider";
-}
+$path = '/afs/ir.stanford.edu/users/h/o/holstein/cgi-bin/dev/cs147_app/lib';
+set_include_path(get_include_path() . PATH_SEPARATOR . $path);
+require_once('db.php');
+require_once('user.php');
 
 ?>
 
@@ -204,7 +204,7 @@ if(!$_SESSION['user_type']) {
 		  document.getElementById('map_canvas').style.height = $(document).height() - $('#test').height() - 44 + "px"
 		  map = new google.maps.Map(document.getElementById('map_canvas'), mapOptions);
 
-		  new Trip('15', false, map.getCenter(), "11:00pm", "11:30pm");	
+		  //new Trip('-1', '15', false, map.getCenter(), "11:00pm", "11:30pm");	
 
 		  /*google.maps.event.addListener(marker, 'click', function() {
 			$('#trip_popup').popup("open", { overlayTheme: "a" });
@@ -219,6 +219,8 @@ if(!$_SESSION['user_type']) {
 		  //var myControl = document.getElementById('test');
 		  //myControl.index = 1;
 		  //map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(myControl);
+
+		   initializeRides();
 		}
 		
 		google.maps.event.addDomListener(window, 'load', initialize);
@@ -233,25 +235,32 @@ if(!$_SESSION['user_type']) {
 		new_trip_location = location;
 		
 		$('#new_trip_popup').popup("open", { overlayTheme: "a" });
+	}
+
+
+	function initializeRides() {
+		var params = {};
+		$.get('get_rides.php', params, function(response) {
+			rides = eval(response);
+			for(var i = 0; i < rides.length; i++) {
+				var ride = rides[i];
+				new Trip(ride['id'], ride['pay'], ride['user'] == <?= $_SESSION['user']?>, new google.maps.LatLng(ride['latitude'], ride['longitude']), ride['leave_time'], ride['return_time']);
+			}
+		});
 		
-		//ui-btn-active
-		
-		//google.maps.event.addListener(marker, 'click', function() {
-			//$('#trip_popup').popup("open", { overlayTheme: "a" });
-			//map.setZoom(8);
-			//map.setCenter(marker.getPosition());
-		  //});
 	}
 	
 	function finalizeNewTrip() {
 		//php for is_rider
 		var leave_time = $("#start_hour").val() + $("#start_min").val() + $("#start_ampm").val();
 		var return_time = $("#end_hour").val() + $("#end_min").val() + $("#end_ampm").val();
-		new Trip($("#new_trip_rate").val(), true, new_trip_location, leave_time, return_time);
+		var trip_id = createTripInDb($("#new_trip_rate").val(), new_trip_location, leave_time, return_time);
+		var trip = new Trip(trip_id, $("#new_trip_rate").val(), true, new_trip_location, leave_time, return_time);
 		alert('Your trip was posted!  If someone wants to Share-A-Ride with you, you will receive a notification on your home page.  Click okay to continue browsing the map.');
 	}
 	
-	function Trip(rate, is_yours, location, leave_time, return_time) {
+	function Trip(id, rate, is_yours, location, leave_time, return_time) {
+		this.id = id;
 		this.rate = rate;
 		this.is_yours = is_yours;
 		this.location = location;
@@ -280,6 +289,8 @@ if(!$_SESSION['user_type']) {
 				icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'
 			});
 
+			var obj = this;
+
 			google.maps.event.addListener(marker, 'click', function() {
 				map.setCenter(marker.getPosition());
 				$("#my_trip_price").html(rate);
@@ -289,10 +300,45 @@ if(!$_SESSION['user_type']) {
 				$('#my_trip_cancel').click( function() {
 					marker.setMap(null);
 					$('#my_trip_popup').popup('close');
+					obj.removeFromDb();
 				});
 			});
 		}
 	}
+
+	Trip.prototype.removeFromDb = function() {
+		var data = {};
+		data['id'] = this.id;
+		$.ajax({
+ 			type: "POST",
+			url: "delete_ride.php",
+			data: data
+		});
+	}
+
+	function createTripInDb(rate, location, leave_time, return_time) {
+		var data = {};
+		data['lat'] = location['Ya'];
+		data['long'] = location['Za'];
+		data['pay'] = rate;
+		data['leave_time'] = leave_time;
+		data['return_time'] = return_time;
+
+		var trip_id = 0;
+		$.ajax({
+ 			type: "POST",
+			url: "create_ride.php",
+			async: false,
+			data: data
+		}).done(function( response ) {
+			trip_id = response;
+		});
+
+		return trip_id;
+	}
+
+
+	
 	
         </script>
     </body>

@@ -1,3 +1,11 @@
+<?php
+
+$path = '/afs/ir.stanford.edu/users/h/o/holstein/cgi-bin/dev/cs147_app/lib';
+set_include_path(get_include_path() . PATH_SEPARATOR . $path);
+require_once('db.php');
+
+?>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -28,7 +36,7 @@
                 <h3>
                     Sign Up
                 </h3>
-		  <a data-role="button" data-rel="" href="../login/app.php" class="ui-btn-right">
+		  <a data-role="button" data-rel="" rel="external" href="../login/app.php" class="ui-btn-right">
                     Or log in!
                 </a>
             </div>
@@ -39,14 +47,14 @@
                 <h4>
                     Fill out the information so you can start sharing rides today.
                 </h4>
-                <form action="" method="post" data-ajax="false">
+                <form action="" id="signup_form" method="post" data-ajax="false">
                     <div class="ui-grid-a">
                         <div class="ui-block-a">
                             <div data-role="fieldcontain">
                                 <fieldset data-role="controlgroup" data-mini="true">
                                     <label for="textinput7">
                                     </label>
-                                    <input name="fname" id="textinput7" placeholder="First name" value="" type="text" />
+                                    <input name="first_name" id="first_name" placeholder="First name" value="" type="text" />
                                 </fieldset>
                             </div>
                         </div>
@@ -55,7 +63,7 @@
                                 <fieldset data-role="controlgroup" data-mini="true">
                                     <label for="textinput8">
                                     </label>
-                                    <input name="lname" id="textinput8" placeholder="Last name" value="" type="text" />
+                                    <input name="last_name" id="last_name" placeholder="Last name" value="" type="text" />
                                 </fieldset>
                             </div>
                         </div>
@@ -64,35 +72,42 @@
                         <fieldset data-role="controlgroup" data-mini="true">
                             <label for="textinput1">
                             </label>
-                            <input name="username" id="textinput1" placeholder="Username" value="" type="text" />
+                            <input name="username" id="username" placeholder="Username" value="" type="text" />
                         </fieldset>
                     </div>
                     <div data-role="fieldcontain">
                         <fieldset data-role="controlgroup" data-mini="true">
                             <label for="textinput4">
                             </label>
-                            <input name="password" id="textinput4" placeholder="Password" value="" type="password" />
+                            <input name="password" id="password" placeholder="Password" value="" type="password" />
                         </fieldset>
                     </div>
                     <div data-role="fieldcontain">
                         <fieldset data-role="controlgroup" data-mini="true">
                             <label for="textinput6">
                             </label>
-                            <input name="confirm" id="textinput6" placeholder="Confirm password" value="" type="password" />
+                            <input name="confirm_password" id="confirm_password" placeholder="Confirm password" value="" type="password" />
                         </fieldset>
                     </div>
                     <div data-role="fieldcontain">
                         <fieldset data-role="controlgroup" data-mini="true">
                             <label for="textinput5">
                             </label>
-                            <input name="schoolemail" id="textinput5" placeholder="School email" value="" type="email" />
+                            <input name="school_email" id="school_email" placeholder="School email" value="" type="email" />
+                        </fieldset>
+                    </div>
+                    <div data-role="fieldcontain">
+                        <fieldset data-role="controlgroup" data-mini="true">
+                            <label for="textinput5">
+                            </label>
+                            <input name="phone" id="phone" placeholder="Phone" value="" />
                         </fieldset>
                     </div>
                     <div data-role="fieldcontain">
                         <fieldset data-role="controlgroup" data-mini="true">
                             <label for="textinput2">
                             </label>
-                            <input name="paypal" id="textinput2" placeholder="Paypal email" value="" type="email" />
+                            <input name="paypal_email" id="paypal_email" placeholder="Paypal email" value="" type="email" />
                         </fieldset>
                     </div>
                     <div>
@@ -101,21 +116,19 @@
                         </a>
                     </div>
                     <a href="#popuptest" class="ui-content" data-rel="popup" data-theme="b" data-position-to="window" data-role="button">TEST SUBMIT</a>
-		      <input type="submit" data-theme="" value="Submit"  />
+		      <input type="button" data-theme="" onclick="submitForm()" value="Submit" />
             		
 		</form>
 			
 		<div data-role="popup" id="popuptest" href="#../popup/signupconf.php" data-overlay-theme="a">
             		<div data-theme="d" data-role="header">
-                		<h3>
-                    			Confirm
-                		</h3>
+				<h3>Success</h3>
             		</div>
             		<div data-role="content">
                 		<h2>
                     			Great! You're in!
                 		</h2>
-                		<a data-role="button" data-theme="b" href="../main/app.php">
+                		<a data-role="button" rel="external" data-theme="b" href="../main/app.php">
                     			Check it out!
                 		</a>
             		</div>
@@ -123,7 +136,73 @@
             </div>
         </div>
         <script>
-            //App custom javascript
+		function submitForm() {
+			if($("#first_name").val().length == 0) {
+				alert('Enter your first name.');
+				return false;
+			}
+
+			if($("#last_name").val().length == 0) {
+				alert('Enter your last name.');
+				return false;
+			}
+
+			if($("#username").val().length == 0) {
+				alert('Enter your username.');
+				return false;
+			}
+
+			if($("#password").val().length < 5) {
+				alert('For your security, enter a password at least 5 characters long.');
+				return false;
+			}
+
+			if($("#password").val() != $("#confirm_password").val()) {
+				alert('Password and confirmation password do not match.');
+				return false;
+			}
+
+			if($("#school_email").val().length == 0) {
+				alert('Enter your school email.');
+				return false;
+			}
+
+			if($("#phone").val().length == 0) {
+				alert('Enter your phone number.');
+				return false;
+			}
+
+			if($("#phone").val().length >= 20) {
+				alert('Your phone number must be less 20 digits.');
+				return false;
+			}
+
+			if($("#paypal_email").val().length == 0) {
+				alert('Enter your paypal email.');
+				return false;
+			}
+
+			$.mobile.loading( 'show', {
+				text: 'Creating your account...',
+				textVisible: true,
+				theme: 'a'
+			});
+
+			$.ajax({
+  				type: 'POST',
+				url: 'create_account.php',
+				data: $("#signup_form").serialize(),
+				async: false
+			}).done(function(data) {
+				data = eval(data);
+				$.mobile.loading('hide');
+				if(data[0] == 1) {
+					$('#popuptest').popup("open", { overlayTheme: "a" });
+				} else {
+					alert(data[1]);
+				}
+			});
+		}
         </script>
     </body>
 </html>
