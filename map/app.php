@@ -119,7 +119,7 @@ require_once('user.php');
 							<tr><td>Return:</td><td><span id="trip_return_time"></span></td></tr>
 					</table>
                 		</h3>
-                		<a data-role="button" data-theme="b" onclick="$('#trip_popup').popup('close'); alert('Your request was sent!  When your request is approved, you will receive a notification on your home page.  Click okay to continue browsing the map.')">
+                		<a id="request_button" data-role="button" data-theme="b">
                     			Request this <?= $_SESSION['user_type'] == "driver" ? "Passenger" : "Ride" ?>
                 		</a>
 						<input onclick="$('#trip_popup').popup('close')" type="submit" value="Cancel" />
@@ -244,7 +244,7 @@ require_once('user.php');
 			rides = eval(response);
 			for(var i = 0; i < rides.length; i++) {
 				var ride = rides[i];
-				new Trip(ride['id'], ride['pay'], ride['user'] == <?= $_SESSION['user']?>, new google.maps.LatLng(ride['latitude'], ride['longitude']), ride['leave_time'], ride['return_time']);
+				new Trip(ride['id'], ride['pay'], ride['user'], ride['user'] == <?= $_SESSION['user']?>, new google.maps.LatLng(ride['latitude'], ride['longitude']), ride['leave_time'], ride['return_time']);
 			}
 		});
 		
@@ -255,18 +255,22 @@ require_once('user.php');
 		var leave_time = $("#start_hour").val() + $("#start_min").val() + $("#start_ampm").val();
 		var return_time = $("#end_hour").val() + $("#end_min").val() + $("#end_ampm").val();
 		var trip_id = createTripInDb($("#new_trip_rate").val(), new_trip_location, leave_time, return_time);
-		var trip = new Trip(trip_id, $("#new_trip_rate").val(), true, new_trip_location, leave_time, return_time);
+		var trip = new Trip(trip_id, $("#new_trip_rate").val(), <?= $_SESSION['user'] ?>, true, new_trip_location, leave_time, return_time);
 		alert('Your trip was posted!  If someone wants to Share-A-Ride with you, you will receive a notification on your home page.  Click okay to continue browsing the map.');
 	}
 	
-	function Trip(id, rate, is_yours, location, leave_time, return_time) {
+	function Trip(id, rate, post_user_id, is_yours, location, leave_time, return_time) {
 		this.id = id;
+		this.post_user_id = post_user_id;
 		this.rate = rate;
 		this.is_yours = is_yours;
 		this.location = location;
 		this.leave_time = leave_time;
 		this.return_time = return_time;
-					
+			
+
+		var obj = this;
+
 		if(!is_yours) {
 			var marker = new google.maps.Marker({
 				position: location,
@@ -280,6 +284,19 @@ require_once('user.php');
 				$('#trip_leave_time').html(leave_time);
 				$('#trip_return_time').html(return_time);
 				$('#trip_popup').popup("open", { overlayTheme: "a" });
+
+				request_ride_params = {};
+				request_ride_params['to_user'] = obj.post_user_id;
+				request_ride_params['ride_id'] = obj.id;
+
+				$('#request_button').unbind('click');
+
+				$('#request_button').click(function() {
+					$.post('request_ride.php', request_ride_params, function(data) {
+					});
+					$('#trip_popup').popup('close');
+					alert('Your request was sent!  When your request is approved, you will receive a notification on your home page.  Click okay to continue browsing the map.');
+				});
 			});
 
 		} else {
@@ -288,8 +305,6 @@ require_once('user.php');
 				map: map,
 				icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'
 			});
-
-			var obj = this;
 
 			google.maps.event.addListener(marker, 'click', function() {
 				map.setCenter(marker.getPosition());
@@ -336,9 +351,6 @@ require_once('user.php');
 
 		return trip_id;
 	}
-
-
-	
 	
         </script>
     </body>

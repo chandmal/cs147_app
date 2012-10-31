@@ -16,7 +16,7 @@ $leave_time = strtotime($leave_time);
 if($leave_time < time()) $leave_time += 86400;
 
 $return_time = strtotime($return_time);
-if($return_time < time()) $leave_time += 86400;
+if($return_time < time()) $return_time += 86400;
 
 mysql_query("INSERT INTO rides (user, type, latitude, longitude, pay, leave_time, return_time) VALUES ($user, '$type', '$latitude', '$longitude', '$pay', $leave_time, $return_time)");
 echo mysql_error();
