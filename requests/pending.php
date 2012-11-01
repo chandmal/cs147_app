@@ -5,19 +5,19 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>
         </title>
-        <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/jquery.mobile/1.1.1/jquery.mobile-1.1.1.min.css" />
+        <link rel="stylesheet" href="http://jquerymobile.com/demos/1.2.0-alpha.1/css/themes/default/jquery.mobile-1.2.0-alpha.1.css" />
         <link rel="stylesheet" href="my.css" />
         <style>
             /* App custom styles */
         </style>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js">
         </script>
-        <script src="https://ajax.aspnetcdn.com/ajax/jquery.mobile/1.1.1/jquery.mobile-1.1.1.min.js">
+        <script src="http://jquerymobile.com/demos/1.2.0-alpha.1/js/jquery.mobile-1.2.0-alpha.1.js"></script>
         </script>
         <script src="my.js">
         </script>
     </head>
-    <body>
+    <body onload="getRequests()">
         <!-- Home -->
         <div data-role="page" id="page1">
             <div data-theme="a" data-role="header">
@@ -31,8 +31,28 @@
                     Menu
                 </a>
             </div>
-            <div data-role="content">
-                <a href="#" data-role="button" data-theme="e" data-icon="star" data-iconpos="right" class="ui-content" data-rel="popup" data-position-to="window">
+           <div data-role="content" id="content">
+                <div data-role="navbar">
+                    <ul>
+                        <li>
+                            <a href="new.php" data-theme="" rel="external">
+                                To you
+                            </a>
+                        </li>
+                        <li>
+                            <a href="pending.php" data-theme="" class="ui-btn-active ui-state-persist">
+                                From you
+                            </a>
+                        </li>
+                        <li>
+                            <a href="confirmed.php" data-theme="" rel="external">
+                                Confirmed
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            
+		<a href="#" data-role="button" data-theme="e" data-icon="star" data-iconpos="right" class="ui-content" data-rel="popup" data-position-to="window">
 			[Name] wants a ride! (new request, theme e)
 		</a>
 		<a href="#popuptest" class="ui-content"  data-role="button" data-theme="b" data-rel="popup" data-position-to="window">
@@ -68,10 +88,7 @@
 	   </div>
 
         </div>
-
-	
-
-        <script>
+      <script>
 
 		function getRequests() {
 			$.mobile.loading( 'show', {
@@ -80,7 +97,7 @@
 				theme: 'a'
 			});
 
-			$.get('get_to_you_requests.php', function(requests) {
+			$.get('get_from_you_requests.php', function(requests) {
 				requests = eval(requests);
 				for(var i = 0; i < requests.length; i++) {
 					var request = requests[i];
@@ -101,16 +118,16 @@
 			this.first_name = first_name;
 			this.last_name = last_name;
 
-			var caption = first_name + " wants ";
+			var caption = "You want ";
 			if(type == "driver") {
-				caption += "to share your ride";
+				caption += "a ride from " + first_name;
 			} else {
-				caption += "wants a ride";
+				caption += "to share your ride with " + first_name;
 			}
 
 			var obj = this;		
 
-			var initial_theme = is_new == 1 ? "e" : "b";
+			var initial_theme = "b";
 			var button = $('<a href="#" data-role="button" class="ui-content" data-position-to="window" data-theme="' + initial_theme + '">' + caption + '</a>');
 			$("#content").append(button).trigger('create');
 			button.click(function() {

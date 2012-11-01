@@ -35,12 +35,12 @@
                 <div data-role="navbar">
                     <ul>
                         <li>
-                            <a href="new.php" data-theme="">
+                            <a href="new.php" data-theme="" rel="external">
                                 To you
                             </a>
                         </li>
                         <li>
-                            <a href="pending.php" data-theme="">
+                            <a href="pending.php" data-theme="" rel="external">
                                 From you
                             </a>
                         </li>

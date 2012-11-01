@@ -7,7 +7,8 @@ require_once('db.php');
 $user_id = $_SESSION['user'];
 
 $time = time();
-$result = mysql_query("SELECT * FROM requests, rides, users WHERE requests.ride_id = rides.id AND requests.to_user=$user_id AND requests.confirmed=0 AND rides.leave_time > $time AND users.id = requests.from_user ORDER BY requests.id DESC");
+$result = mysql_query("SELECT * FROM requests, rides, users WHERE requests.ride_id = rides.id AND requests.to_user=$user_id AND requests.confirmed=0 AND rides.leave_time > $time AND requests.confirmed = 0 AND users.id = requests.from_user ORDER BY requests.id DESC");
+
 if(!$result) exit;
 
 $requests = array();

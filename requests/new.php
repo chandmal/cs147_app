@@ -71,9 +71,9 @@ require_once('user.php');
        			     <span id="popup_name"></span>
        			 </h2>
 				<h4> Time: From <span id="popup_leave_time"></span> to <span id="popup_return_time"></span></h4>
-				<h4> Cost: $<span id="popup_pay"></span> </h4>
+				<h4> Pay: $<span id="popup_pay"></span> </h4>
 				<h4> Rating: [Rating] </h4>
-				<a href="#../confirm/passengerconfirm.php" data-role="button" data-inline="true" data-theme="b">Accept and Pay</a>
+				<a href="#" id="popup_accept" data-role="button" data-inline="true" data-theme="b">Accept and Pay</a>
 				<a href="" data-rel="back" data-role="button" data-inline="true">Cancel</a>
     			</div>
 		</div>
@@ -86,7 +86,7 @@ require_once('user.php');
 				<h4> Time: From [Start] to [End] </h4>
 				<h4> Willing to pay: $[Price] </h4>
 				<h4> Rating: [Rating] </h4>
-				<a href="#../confirm/driverconfirm.php" data-role="button" data-inline="true" data-theme="b">Accept</a>
+				<a rel="external" href="#" data-role="button" data-inline="true" data-theme="b">Accept</a>
 				<a href="" data-rel="back" data-role="button" data-inline="true">Cancel</a>
     			</div>
 		</div>	
@@ -110,28 +110,33 @@ require_once('user.php');
 				requests = eval(requests);
 				for(var i = 0; i < requests.length; i++) {
 					var request = requests[i];
-					new Request(request[0], request['is_new'], request['type'], request['leave_time'], request['return_time'], request['pay'], request['first_name'], request['last_name']);
+					new Request(request[0], request['is_new'], request['request_type'], request['leave_time'], request['return_time'], request['pay'], request['paid'], request['first_name'], request['last_name']);
 				}
 				
 				$.mobile.loading('hide');
 			});
 		}
 
-		function Request(id, is_new, type, leave_time, return_time, pay, first_name, last_name) {
+		function Request(id, is_new, request_type, leave_time, return_time, pay, paid, first_name, last_name) {
 			this.id = id;
 			this.is_new = is_new;
-			this.type = type;
+			this.request_type = request_type;
 			this.leave_time = leave_time;
 			this.return_time = return_time;
 			this.pay = pay;
+			this.paid = paid;
 			this.first_name = first_name;
 			this.last_name = last_name;
 
-			var caption = first_name + " wants ";
-			if(type == "driver") {
-				caption += "to share your ride";
-			} else {
+			var caption = first_name + " ";
+			if(request_type == "rider_to_driver") {
 				caption += "wants a ride";
+			}
+			if(request_type == "driver_to_rider") {
+				caption += "wants to share their ride";
+			}
+			if(request_type == "payment_driver_to_rider") {
+				caption += "has agreed to share their ride.  Pay now!";
 			}
 
 			var obj = this;		
@@ -144,6 +149,30 @@ require_once('user.php');
 				$("#popup_pay").html(obj.pay);
 				$("#popup_leave_time").html(obj.leave_time);
 				$("#popup_return_time").html(obj.return_time);
+		
+				if(obj.request_type == "rider_to_driver") {
+					$("#popup_accept .ui-btn-text").text("Accept");
+					$("#popup_accept").unbind('click');
+					$("#popup_accept").click(function() {
+						$.get("accept_request.php", { id : obj.id }, function() {
+						});
+						button.css('display', 'none');
+						$("#popup").popup('close');
+					});
+				} 
+
+				if(obj.request_type == "driver_to_rider" || "payment_driver_to_rider")  {
+					$("#popup_accept .ui-btn-text").text("Accept and Pay");
+					$("#popup_accept").unbind('click');
+					$("#popup_accept").click(function() {
+						$.get("accept_request.php", { id : obj.id }, function() {
+						});
+						button.css('display', 'none');
+						$("#popup").popup('close');
+					});					
+				}
+
+				//$("#popup_button").html();
 				if(obj.is_new == 1) {
 					//reset all the buttons widgets
     				button
