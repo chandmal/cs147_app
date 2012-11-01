@@ -8,6 +8,7 @@ $user_id = $_SESSION['user'];
 
 $time = time();
 $result = mysql_query("SELECT * FROM requests, rides, users WHERE requests.ride_id = rides.id AND requests.from_user=$user_id AND requests.confirmed=0 AND rides.leave_time > $time AND users.id = requests.to_user ORDER BY requests.id DESC");
+echo mysql_error();
 if(!$result) exit;
 
 $requests = array();

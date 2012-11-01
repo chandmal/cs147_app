@@ -1,3 +1,12 @@
+<?php
+
+$path = '/afs/ir.stanford.edu/users/h/o/holstein/cgi-bin/dev/cs147_app/lib';
+set_include_path(get_include_path() . PATH_SEPARATOR . $path);
+require_once('db.php');
+require_once('user.php');
+
+?>
+
  <!DOCTYPE html>
 <html>
     <head>
@@ -65,25 +74,11 @@
        			     <span id="popup_name"></span>
        			 </h2>
 				<h4> Time: From <span id="popup_leave_time"></span> to <span id="popup_return_time"></span></h4>
-				<h4> Cost: $<span id="popup_pay"></span> </h4>
+				<h4> Pay: $<span id="popup_pay"></span> </h4>
 				<h4> Rating: [Rating] </h4>
-				<a href="#../confirm/passengerconfirm.php" data-role="button" data-inline="true" data-theme="b">Accept and Pay</a>
-				<a href="" data-rel="back" data-role="button" data-inline="true">Cancel</a>
+				<a href="#" onclick="$('#popup').popup('close')" id="popup_accept" data-role="button" data-inline="true" data-theme="b">Close</a>
     			</div>
 		</div>
-		<div data-role="popup" id="popuptest2" href="#../popup/moreinforequest.php" style="max-width: 610px;" data-overlay-theme="a" data-dismissable="false" data-disabled="false" aria-disabled="false">
-			<a href="#" data-rel="back" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext" class="ui-btn-right">Close</a>
-    			<div data-theme="d" data-dismissable="false">
-       			 <h2>
-       			     [Name] [Last name]
-       			 </h2>
-				<h4> Time: From [Start] to [End] </h4>
-				<h4> Willing to pay: $[Price] </h4>
-				<h4> Rating: [Rating] </h4>
-				<a href="#../confirm/driverconfirm.php" data-role="button" data-inline="true" data-theme="b">Accept</a>
-				<a href="" data-rel="back" data-role="button" data-inline="true">Cancel</a>
-    			</div>
-		</div>	
 	
 	   </div>
 
@@ -101,28 +96,32 @@
 				requests = eval(requests);
 				for(var i = 0; i < requests.length; i++) {
 					var request = requests[i];
-					new Request(request[0], request['is_new'], request['type'], request['leave_time'], request['return_time'], request['pay'], request['first_name'], request['last_name']);
+					new Request(request[0], request['is_new'], request['request_type'], request['leave_time'], request['return_time'], request['pay'], request['paid'], request['first_name'], request['last_name']);
 				}
 				
 				$.mobile.loading('hide');
 			});
 		}
 
-		function Request(id, is_new, type, leave_time, return_time, pay, first_name, last_name) {
+		function Request(id, is_new, request_type, leave_time, return_time, pay, paid, first_name, last_name) {
 			this.id = id;
 			this.is_new = is_new;
-			this.type = type;
+			this.request_type = request_type;
 			this.leave_time = leave_time;
 			this.return_time = return_time;
 			this.pay = pay;
 			this.first_name = first_name;
 			this.last_name = last_name;
 
-			var caption = "You want ";
-			if(type == "driver") {
-				caption += "a ride from " + first_name;
-			} else {
-				caption += "to share your ride with " + first_name;
+			var caption = "You ";
+			if(request_type == "rider_to_driver") {
+				caption += "want a ride from " + first_name;
+			}
+			if(request_type == "driver_to_rider") {
+				caption += "want to share your ride with " + first_name;
+			}
+			if(request_type == "payment_driver_to_rider") {
+				caption += "are waiting for payment from " + first_name;
 			}
 
 			var obj = this;		
@@ -135,6 +134,8 @@
 				$("#popup_pay").html(obj.pay);
 				$("#popup_leave_time").html(obj.leave_time);
 				$("#popup_return_time").html(obj.return_time);
+
+				//$("#popup_button").html();
 				if(obj.is_new == 1) {
 					//reset all the buttons widgets
     				button
@@ -148,7 +149,6 @@
 				}
 				$("#popup").popup('open', { overlayTheme: "a" });
 			});
-
 			
 		}
         </script>

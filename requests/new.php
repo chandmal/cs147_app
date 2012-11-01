@@ -151,7 +151,8 @@ require_once('user.php');
 				$("#popup_return_time").html(obj.return_time);
 		
 				if(obj.request_type == "rider_to_driver") {
-					$("#popup_accept .ui-btn-text").text("Accept");
+					//$("#popup_accept .ui-btn-text").text("");
+					$("#popup_accept .ui-btn-inner").text("Accept");
 					$("#popup_accept").unbind('click');
 					$("#popup_accept").click(function() {
 						$.get("accept_request.php", { id : obj.id }, function() {
