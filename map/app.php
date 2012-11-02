@@ -39,7 +39,7 @@ require_once('user.php');
 		  <a data-role="button" href="../tadirections/app.php" class="ui-btn-left">
                     Directions
                 </a>
-		  <a data-role="button" href="../main/app.php" class="ui-btn-right">
+		  <a data-role="button" href="../main/app.php" class="ui-btn-right" rel="external">
                     Menu
                 </a>
             </div>

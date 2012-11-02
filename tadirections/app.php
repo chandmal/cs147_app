@@ -1,10 +1,3 @@
-<?=
-
-session_start();
-$_SESSION['user_type'] = $_POST['user_type'];
-
-?>
-
 <!DOCTYPE html>
 <html>
     <head>

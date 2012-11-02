@@ -33,7 +33,7 @@ require_once('user.php');
                 <h3>
                     Requests
                 </h3>
-                <a data-role="button" href="../main/app.php" class="ui-btn-right">
+                <a data-role="button" href="../main/app.php" class="ui-btn-right" rel="external">
                     Menu
                 </a>
             </div>
@@ -67,7 +67,6 @@ require_once('user.php');
 				<h4> Time: From <span id="popup_leave_time"></span> to <span id="popup_return_time"></span></h4>
 				<h4> Pay: $<span id="popup_pay"></span> </h4>
 				<h4> Give them a call: <span id="popup_phone"></span> </h4>
-				<h4> Rating: [Rating] </h4>
 				<a href="#" onclick="$('#popup').popup('close')" id="popup_accept" data-role="button" data-inline="true" data-theme="b">Close</a>
     			</div>
 		</div>
@@ -89,7 +88,7 @@ require_once('user.php');
 				if(requests.length == 0) {
 					var caption = "No requests here. Click here to the home screen.";
 					var initial_theme = "a";
-					var button = $('<a href="../main/app.php" data-role="button" class="ui-content" data-position-to="window" data-theme="' + initial_theme + '">' + caption + '</a>');
+					var button = $('<a rel="external" href="../main/app.php" data-role="button" class="ui-content" data-position-to="window" data-theme="' + initial_theme + '">' + caption + '</a>');
 					$("#content").append(button).trigger('create');
 				}
 				for(var i = 0; i < requests.length; i++) {
