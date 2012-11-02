@@ -55,12 +55,6 @@ require_once('user.php');
                     </ul>
                 </div>
             
-		<a href="#" data-role="button" data-theme="e" data-icon="star" data-iconpos="right" class="ui-content" data-rel="popup" data-position-to="window">
-			[Name] wants a ride! (new request, theme e)
-		</a>
-		<a href="#popuptest" class="ui-content"  data-role="button" data-theme="b" data-rel="popup" data-position-to="window">
-			[Name] wants to share! (one that's been looked at)
-		</a>
 		<div data-role="popup" id="popup" href="" data-overlay-theme="a" data-dismissable="false">
 			<a href="#" data-rel="back" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext" class="ui-btn-right">Close</a>
     			<div data-theme="d" data-dismissable="false">
@@ -105,6 +99,12 @@ require_once('user.php');
 
 			$.get('get_to_you_requests.php', function(requests) {
 				requests = eval(requests);
+				if(requests.length == 0) {
+					var caption = "No requests here. Click here to the home screen.";
+					var initial_theme = "a";
+					var button = $('<a href="../main/app.php" data-role="button" class="ui-content" data-position-to="window" data-theme="' + initial_theme + '">' + caption + '</a>');
+					$("#content").append(button).trigger('create');
+				}
 				for(var i = 0; i < requests.length; i++) {
 					var request = requests[i];
 					new Request(request[0], request['is_new'], request['request_type'], request['leave_time'], request['return_time'], request['pay'], request['paid'], request['first_name'], request['last_name']);
@@ -155,7 +155,7 @@ require_once('user.php');
 						$("#popup").popup('close');
 						document.location = "accept_request.php?redirect=from&id=" + obj.id;
 					});
-				} 
+				}
 
 				if(obj.request_type == "driver_to_rider" || obj.request_type == "payment_driver_to_rider")  {
 					$("#popup_accept .ui-btn-text").text("Accept and Pay");

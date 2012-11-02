@@ -18,6 +18,8 @@ $result = mysql_query("SELECT * FROM rides WHERE (type='$type' OR user=$user_id)
 
 $rides = array();
 while($row = mysql_fetch_array($result)) {
+	$row['leave_time'] = timestamp_to_time($row['leave_time']);
+	$row['return_time'] = timestamp_to_time($row['return_time']);
 	$rides[] = $row;
 }
 

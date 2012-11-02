@@ -13,6 +13,8 @@ if(!$result) exit;
 
 $requests = array();
 while($row = mysql_fetch_array($result)) {
+	$row['leave_time'] = timestamp_to_time($row['leave_time']);
+	$row['return_time'] = timestamp_to_time($row['return_time']);
 	$requests[] = $row;
 }
 

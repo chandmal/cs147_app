@@ -21,6 +21,8 @@ while($row = mysql_fetch_array($result)) {
 	$ride = $row['ride_id'];
 	$ride = mysql_query("SELECT * FROM rides WHERE id=$ride");
 	$ride = mysql_fetch_array($ride);
+	$ride['leave_time'] = timestamp_to_time($ride['leave_time']);
+	$ride['return_time'] = timestamp_to_time($ride['return_time']);
 	$tmp['ride'] = $ride;
 	$requests[] = $tmp;
 }
