@@ -30,9 +30,6 @@ require_once('user.php');
         <!-- Home -->
         <div data-role="page" id="page1">
             <div data-theme="a" data-role="header">
-                <a data-role="button" data-rel="back" href="#page1" class="ui-btn-left">
-                    Back
-                </a>
                 <h3>
                     Requests
                 </h3>
@@ -49,7 +46,7 @@ require_once('user.php');
                             </a>
                         </li>
                         <li>
-                            <a href="pending.php" data-theme="" class="ui-btn-active ui-state-persist">
+                            <a href="pending.php" data-theme="" rel="external" class="ui-btn-active ui-state-persist">
                                 From you
                             </a>
                         </li>

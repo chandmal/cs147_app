@@ -26,10 +26,7 @@ require_once('user.php');
     <body onload="getRequests()">
         <!-- Home -->
         <div data-role="page" id="page1">
-            <div data-theme="a" data-role="header">
-                <a data-role="button" data-rel="back" href="#page1" class="ui-btn-left">
-                    Back
-                </a>
+            <div data-theme="a" data-role="header">	
                 <h3>
                     Requests
                 </h3>
@@ -41,7 +38,7 @@ require_once('user.php');
                 <div data-role="navbar">
                     <ul>
                         <li>
-                            <a href="" data-theme="" class="ui-btn-active ui-state-persist">
+                            <a href="new.php" rel="external" class="ui-btn-active ui-state-persist">
                                 To you
                             </a>
                         </li>
@@ -151,26 +148,21 @@ require_once('user.php');
 				$("#popup_return_time").html(obj.return_time);
 		
 				if(obj.request_type == "rider_to_driver") {
-					//$("#popup_accept .ui-btn-text").text("");
 					$("#popup_accept .ui-btn-inner").text("Accept");
 					$("#popup_accept").unbind('click');
 					$("#popup_accept").click(function() {
-						$.get("accept_request.php", { id : obj.id }, function() {
-						});
 						button.css('display', 'none');
 						$("#popup").popup('close');
+						document.location = "accept_request.php?redirect=from&id=" + obj.id;
 					});
 				} 
 
-				if(obj.request_type == "driver_to_rider" || "payment_driver_to_rider")  {
+				if(obj.request_type == "driver_to_rider" || obj.request_type == "payment_driver_to_rider")  {
 					$("#popup_accept .ui-btn-text").text("Accept and Pay");
 					$("#popup_accept").unbind('click');
 					$("#popup_accept").click(function() {
-						$.get("accept_request.php", { id : obj.id }, function() {
-						});
-						button.css('display', 'none');
-						$("#popup").popup('close');
-					});					
+						document.location = "../lib/paypal/set_express_checkout.php?first_name=" + obj['first_name'] + "&pay=" + obj['pay'] + "&request_id=" + obj.id;
+					});
 				}
 
 				//$("#popup_button").html();

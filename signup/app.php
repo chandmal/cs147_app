@@ -115,7 +115,6 @@ require_once('db.php');
                             Don't have PayPal? Click here!
                         </a>
                     </div>
-                    <a href="#popuptest" class="ui-content" data-rel="popup" data-theme="b" data-position-to="window" data-role="button">TEST SUBMIT</a>
 		      <input type="button" data-theme="" onclick="submitForm()" value="Submit" />
             		
 		</form>

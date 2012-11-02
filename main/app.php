@@ -31,8 +31,8 @@ require_once('user.php');
         <!-- Home -->
         <div data-role="page" id="page1">
             <div data-theme="a" data-role="header">
-                <a data-role="button" href="../settings/app.php" data-icon="gear" data-iconpos="left" class="ui-btn-right">
-                    Settings
+                <a data-role="button" href="logout.php" rel="external" class="ui-btn-right">
+                    Logout
                 </a>
                 <h3>
                     Main Menu

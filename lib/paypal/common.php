@@ -2,7 +2,7 @@
 
 $environment = 'sandbox';	// or 'beta-sandbox' or 'live'
  
-/**
+/*
  * Send HTTP POST Request
  *
  * @param	string	The API method name
@@ -20,7 +20,7 @@ function PPHttpPost($methodName_, $nvpStr_) {
 	if("sandbox" === $environment || "beta-sandbox" === $environment) {
 		$API_Endpoint = "https://api-3t.$environment.paypal.com/nvp";
 	}
-	$version = urlencode('51.0');
+	$version = urlencode('65.0');
  
 	// Set the curl parameters.
 	$ch = curl_init();

@@ -3,16 +3,27 @@
 require_once('common.php');
 
 // Set request-specific fields.
-$paymentAmount = urlencode('$15');
+$paymentAmount = urlencode('15');
 $currencyID = urlencode('USD');							// or other currency code ('GBP', 'EUR', 'JPY', 'CAD', 'AUD')
 $paymentType = urlencode('Authorization');				// or 'Sale' or 'Order'
+
+$returnURL = "http://stanford.edu/~holstein/cgi-bin/dev/cs147_app/requests/accept_request.php?redirect=confirm&id=".$_GET['request_id'];
+$cancelURL = "http://stanford.edu/~holstein/cgi-bin/dev/cs147_app/requests/new.php";
  
-$returnURL = urlencode("http://stanford.edu/~holstein/cgi-bin/dev/cs147_app/lib/paypal/do_express_checkout.php");
-$cancelURL = urlencode("http://stanford.edu/~holstein/cgi-bin/dev/cs147_app/lib/paypal/canel.php");
- 
+$params['METHOD']='SetExpressCheckout';
+$params['RETURNURL']= $returnURL;
+$params['CANCELURL']= $cancelURL;
+$params['PAYMENTREQUEST_0_PAYMENTACTION']='Sale';
+$params['L_PAYMENTREQUEST_0_NAME0']='Your Share-A-Ride';
+$params['L_PAYMENTREQUEST_0_DESC0']='With '.$_GET['first_name'];
+$params['L_PAYMENTREQUEST_0_AMT0']=$_GET['pay'];
+$params['L_PAYMENTREQUEST_0_QTY0']="1";
+$params['PAYMENTREQUEST_0_AMT']= $_GET['pay'];
+$params['PAYMENTREQUEST_0_CURRENCYCODE']="USD";
+
 // Add request-specific fields to the request string.
-$nvpStr = "&Amt=$paymentAmount&ReturnUrl=$returnURL&CANCELURL=$cancelURL&PAYMENTACTION=$paymentType&CURRENCYCODE=$currencyID";
- 
+$nvpStr = "&".http_build_query($params);
+
 // Execute the API operation; see the PPHttpPost function above.
 $httpParsedResponseAr = PPHttpPost('SetExpressCheckout', $nvpStr);
  

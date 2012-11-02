@@ -16,14 +16,28 @@ if($request['request_type'] == 'rider_to_driver') {
 	echo mysql_error();
 }
 
+$ride_id = $request['ride_id'];
+
 if($request['request_type'] == 'driver_to_rider') {
-	mysql_query("UPDATE requests SET confirmed=1, paid=1, is_ new = 1 WHERE id = $request_id");
+	mysql_query("UPDATE requests SET confirmed=1, paid=1 WHERE id = $request_id");
+	mysql_query("UPDATE rides SET is_show=0 WHERE id=$ride_id");
+	echo mysql_error();
 }
 
 if($request['request_type'] == 'payment_driver_to_rider') {
 	mysql_query("UPDATE requests SET confirmed=1, paid=1, is_new = 1 WHERE id = $request_id");
+	mysql_query("UPDATE rides SET is_show=0 WHERE id=$ride_id");
+	echo mysql_error();
 }
 
+if($_GET['redirect'] == 'confirm') {
+	header('Location: http://stanford.edu/~holstein/cgi-bin/dev/cs147_app/requests/confirmed.php');
+	exit;
+}
 
+if($_GET['redirect'] == 'from') {
+	header('Location: http://stanford.edu/~holstein/cgi-bin/dev/cs147_app/requests/pending.php');
+	exit;
+}
 
 ?>
