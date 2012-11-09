@@ -16,9 +16,11 @@
         <script src="my.js">
         </script>
     </head>
-    <body>
+    <body onload="fadeOut()">
         <!-- Home -->
         <div data-role="page" id="page1">
+		 <div id="logo" style="position:absolute; z-index:5; width:100%; height:100%; background: url('mockup.png') no-repeat center; background-size:cover">
+	   	</div>
             <div data-theme="a" data-role="header">
                 <h3>
                     Login
@@ -72,6 +74,10 @@
 					alert(data[1]);
 				}
 			});
+		}
+	
+		function fadeOut() {
+			setTimeout(function() {$("#logo").fadeOut(3000);}, 400);
 		}
         </script>
     </body>

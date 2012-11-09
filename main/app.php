@@ -16,14 +16,14 @@ require_once('request_counting.php');
         <title>
 		Main Menu
         </title>
-        <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/jquery.mobile/1.1.1/jquery.mobile-1.1.1.min.css" />
+        <link rel="stylesheet" href="http://jquerymobile.com/demos/1.2.0-alpha.1/css/themes/default/jquery.mobile-1.2.0-alpha.1.css" />
         <link rel="stylesheet" href="my.css" />
 	 <link rel="stylesheet" href="../new_icons/new_icons.css" />
         <style>
         </style>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js">
         </script>
-        <script src="https://ajax.aspnetcdn.com/ajax/jquery.mobile/1.1.1/jquery.mobile-1.1.1.min.js">
+        <script src="../map/jquery.mobile-1.2.0-alpha.1.js">
         </script>
         <script src="my.js">
         </script>
@@ -32,23 +32,67 @@ require_once('request_counting.php');
         <!-- Home -->
         <div data-role="page" id="page1">
             <div data-theme="a" data-role="header">
-                <a data-role="button" href="logout.php" rel="external" class="ui-btn-right">
-                    Logout
+		  <a data-role="button" href="#" onclick="$('#help_popup').popup('open', { overlayTheme: 'a' });" class="ui-btn-left">
+                    Help
                 </a>
                 <h3>
-                    Main Menu
+                    Home
                 </h3>
+		 <a data-role="button" href="logout.php" rel="external" class="ui-btn-right">
+                    Logout
+                </a>
             </div>
+
             <div data-role="content">
+
+		<div data-role="popup" id="help_popup" data-overlay-theme="a">
+			<div data-theme="a" data-role="header">
+	                	<h3>
+       	       	     	Share-A-Ride
+              	  	</h3>
+			</div>
+	            <div data-role="content">
+                <h2>
+                    How It Works
+                </h2>
+                <h3>Drivers</h3>
+<h4><ol>
+<li>Mark your intended destination and time of travel</li>
+<li>Set a payment rate for carpoolers</li>
+<li>Confirm or deny carpool requests from riders</li>
+<li>Coordinate and pick up your rider using Share-A-Ride</li>
+<li>Drive to the destination and drop off your rider</li>
+<li>Pick up your rider and return home</li></ol>
+</h4>
+
+<h3>Riders</h3>
+<h4>
+<ol>
+<li>Select your desired destination and time of travel</li>
+<li>Share-A-Ride will suggest drivers with similar itineraries - YOU choose your best match</li>
+<li>Once a driver confirms, coordinate pick-up with Share-A-Ride</li>
+<li>Carpool with your driver to your destination</li>
+<li>Return home with your driver</li>
+</ol>
+</h4>
+			  <a href="#" data-role="button" data-theme="b" onclick="$('#help_popup').popup('close');"> Close </a>
+	            </div>
+
+		</div>
+
+
+
+
                 <h2>
                     Hi, <?= $user['first_name'] ?>!
                 </h2>
                 <form action="../tadirections/app.php" method="POST">
                     <div data-role="fieldcontain">
                         <fieldset data-role="controlgroup" data-type="horizontal">
+				<table style="width:100%"><tr><td>
                             <legend>
                                 I am a:
-                            </legend>
+                            </legend></td><td align="right">
                             <input id="radio3" onclick="driverClick()" name="user_type" value="driver" type="radio" />
                             <label id="driver_radio" for="radio3">
                                 Driver
@@ -56,7 +100,7 @@ require_once('request_counting.php');
                             <input onclick="riderClick()" id="radio4" name="user_type" value="rider" type="radio" />
                             <label id="rider_radio" for="radio4">
                                 Rider
-                            </label>
+                            </label></td></tr></table>
                         </fieldset>
                     </div>
                 </form>
@@ -76,7 +120,7 @@ require_once('request_counting.php');
 			}
 		?>
 		<a id="requests_button" style="display:none" data-role="button" rel="external" data-theme="b" href="../requests/new.php" <?= $data_icon ?>>
-			Check requests
+			My Rides
 		</a>
             </div>
         </div>

@@ -40,7 +40,7 @@ require_once('user.php');
                     Help
                 </a>
 		  <a data-role="button" href="../main/app.php" class="ui-btn-right" rel="external">
-                    Menu
+                    Home
                 </a>
             </div>
 			
@@ -314,10 +314,6 @@ require_once('user.php');
 		
 	var new_trip_location;
 	function createTrip(location) {
-		/*var marker = new google.maps.Marker({
-		position: location,
-		map: map
-			});*/
 		map.setCenter(location);
 		new_trip_location = location;
 		
@@ -360,11 +356,12 @@ require_once('user.php');
 		var obj = this;
 
 		if(!is_yours) {
+			var marker_image_path = "<?= $_SESSION['user_type'] == 'driver' ? "../icons/rider.png" : "../icons/driver.png" ?>";
 			var marker = new google.maps.Marker({
 				position: location,
-				map: map
+				map: map,
+				icon: marker_image_path
 			});
-			http://maps.google.com/mapfiles/ms/icons/green-dot.png'
 			
 			google.maps.event.addListener(marker, 'click', function() {
 				map.setCenter(marker.getPosition());
@@ -393,7 +390,7 @@ require_once('user.php');
 			var marker = new google.maps.Marker({
 				position: location,
 				map: map,
-				icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'
+				icon: '../icons/yours.png'
 			});
 
 			google.maps.event.addListener(marker, 'click', function() {

@@ -54,7 +54,7 @@ mysql_query("UPDATE users SET thumbs_down = ".$they_user['thumbs_down']." WHERE 
                     Confirmation
                 </h3>
                 <a rel="external" data-role="button" href="../main/app.php" class="ui-btn-right">
-                    Menu
+                    Home
                 </a>
             </div>
             <div data-role="content">
@@ -65,7 +65,7 @@ mysql_query("UPDATE users SET thumbs_down = ".$they_user['thumbs_down']." WHERE 
                     Your responses help others know your experiences with <?= $they_user['first_name'] ?>.
                 </h4>
                 <a data-role="button" rel="external" href="../main/app.php">
-                    Main menu
+                    Home
                 </a>
             </div>
         </div>

@@ -4,6 +4,7 @@ $path = '/afs/ir.stanford.edu/users/h/o/holstein/cgi-bin/dev/cs147_app/lib';
 set_include_path(get_include_path() . PATH_SEPARATOR . $path);
 require_once('db.php');
 require_once('user.php');
+require_once('request_counting.php');
 
 ?>
 
@@ -16,6 +17,7 @@ require_once('user.php');
         </title>
         <link rel="stylesheet" href="http://jquerymobile.com/demos/1.2.0-alpha.1/css/themes/default/jquery.mobile-1.2.0-alpha.1.css" />
         <link rel="stylesheet" href="my.css" />
+	 <link rel="stylesheet" href="../new_icons/new_icons.css" />
         <style>
             /* App custom styles */
         </style>
@@ -26,38 +28,82 @@ require_once('user.php');
         <script src="my.js">
         </script>
     </head>
-    <body onload="getRequests()">
+    <body onload="getRequests();$('.ui-btn-icon-top').removeClass('ui-btn-icon-top');">
         <!-- Home -->
         <div data-role="page" id="page1">
             <div data-theme="a" data-role="header">
                 <h3>
-                    Requests
+                    My Rides
                 </h3>
                 <a data-role="button" href="../main/app.php" class="ui-btn-right" rel="external">
-                    Menu
+                    Home
                 </a>
             </div>
            <div data-role="content" id="content">
                 <div data-role="navbar">
                     <ul>
+<?
+
+			$num_new_requests = num_new_to_you_requests();
+
+			$data_icon = "";
+			if($num_new_requests > 0) {
+				$data_icon = ' data-icon="new-';
+				$data_icon .= $num_new_requests <= 9 ? $num_new_requests : "more";
+				$data_icon .= '" data-iconpos="right" ';
+			}
+
+?>
                         <li>
-                            <a href="new.php" data-theme="" rel="external">
-                                To you
+                            <a class="ui-btn-icon-right" href="new.php" data-theme="" rel="external" <?= $data_icon ?>>
+                                Requests
                             </a>
                         </li>
                         <li>
-                            <a href="pending.php" data-theme="" rel="external">
-                                From you
+                            <a class="ui-btn-icon-right" href="pending.php" data-theme="" rel="external">
+                                Pending
                             </a>
                         </li>
                         <li>
-                            <a href="confirmed.php" data-theme="" rel="external" class="ui-btn-active ui-state-persist">
+                            <a class="ui-btn-icon-right" href="confirmed.php" data-theme="" rel="external" class="ui-btn-active ui-state-persist">
                                 Confirmed
                             </a>
                         </li>
                     </ul>
                 </div>
             
+
+		<div data-role="popup" id="popup" href="" data-overlay-theme="a">
+    			<div data-theme="d" data-role="header">
+       			 <h2 style="margin-right:0px; margin-left:0px;">
+       			     <span id="popup_name"></span>
+       			 </h2>
+			</div><h3>
+				<table cellspacing="15">
+				<tr><td>Leave:</td><td><span id="popup_leave_time"></span></td>
+				<tr><td>Return:</td><td><span id="popup_return_time"></span></td></tr>
+				<tr><td>Rate:</td><td>$<span id="popup_pay"></span></td></tr>
+				<tr><td>Ratings:</td>
+				<td>
+							<table>
+							<td><span id="trip_thumbs_up"></span></td>
+							<td><img style="width:40px" src="../icons/thumbup.png" /></td>
+							<td>&nbsp;&nbsp;</td>
+							<td><span id="trip_thumbs_down"></span></td>
+							<td><img style="width:40px" src="../icons/thumbdown.png" /></td>
+							</tr>
+							</table>
+
+				</td>
+				</tr>
+				<tr><td>Phone:</td><td><span id="popup_phone"></span></td></tr>
+				</table>
+				<a href="#" onclick="$('#popup').popup('close')" id="popup_accept" data-role="button" data-theme="b">Close</a>
+			</h3>
+		</div>	
+
+
+<!--
 		<div data-role="popup" id="popup" href="" data-overlay-theme="a" data-dismissable="false">
 			<a href="#" data-rel="back" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext" class="ui-btn-right">Close</a>
     			<div data-theme="d" data-dismissable="false">
@@ -69,8 +115,13 @@ require_once('user.php');
 				<h4> Give them a call: <span id="popup_phone"></span> </h4>
 				<a href="#" onclick="$('#popup').popup('close')" id="popup_accept" data-role="button" data-inline="true" data-theme="b">Close</a>
     			</div>
+
+
+
 		</div>
 	
+-->
+
 	   </div>
 
         </div>
@@ -86,9 +137,9 @@ require_once('user.php');
 			$.get('get_confirmed_requests.php', function(requests) {
 				requests = eval(requests);
 				if(requests.length == 0) {
-					var caption = "No requests here. Click here to the home screen.";
+					var caption = "No activity here. Click to go home.";
 					var initial_theme = "a";
-					var button = $('<a rel="external" href="../main/app.php" data-role="button" class="ui-content" data-position-to="window" data-theme="' + initial_theme + '">' + caption + '</a>');
+					var button = $('<a data-mini="true" rel="external" href="../main/app.php" data-role="button" class="ui-content" data-position-to="window" data-theme="' + initial_theme + '">' + caption + '</a>');
 					$("#content").append(button).trigger('create');
 				}
 				for(var i = 0; i < requests.length; i++) {
@@ -113,6 +164,7 @@ require_once('user.php');
 			this.other_user = other_user;
 
 			this.first_name = other_user['first_name'];
+			this.last_name = other_user['last_name'];
 			this.phone = other_user['phone'];
 
 			if(ride['type'] == "driver") {
@@ -137,7 +189,7 @@ require_once('user.php');
 			var obj = this;
 
 			var initial_theme = this.is_new == 1 ? "e" : "b";
-			var button = $('<a href="#" data-role="button" class="ui-content" data-position-to="window" data-theme="' + initial_theme + '">' + caption + '</a>');
+			var button = $('<a data-mini="true" href="#" data-role="button" class="ui-content" data-position-to="window" data-theme="' + initial_theme + '">' + caption + '</a>');
 			$("#content").append(button).trigger('create');
 			button.click(function() {
 				$("#popup_name").html(obj.first_name + " " + obj.last_name);
@@ -145,6 +197,8 @@ require_once('user.php');
 				$("#popup_leave_time").html(obj.leave_time);
 				$("#popup_return_time").html(obj.return_time);
 				$("#popup_phone").html(obj.phone);
+				$("#trip_thumbs_up").html(obj.other_user['thumbs_up']);
+				$("#trip_thumbs_down").html(obj.other_user['thumbs_down']);
 
 				if(obj.is_new == 1) {
 					$.post('mark_confirmed_as_read.php' ,{id: obj.id}, function(data) {
