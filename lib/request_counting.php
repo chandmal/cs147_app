@@ -15,7 +15,7 @@ function num_new_confirm_requests() {
 	$user_id = $_SESSION['user'];
 
 	$confirmed_requests = 0;
-	$confirmed_resource = mysql_query("SELECT DISTINCT requests.* FROM requests requests, rides rides WHERE (requests.to_user = $user_id OR requests.from_user = $user_id) AND requests.confirmed=1 AND (rides.return_time  + 3600) > $time ORDER BY requests.id DESC");
+	$confirmed_resource = mysql_query("SELECT DISTINCT requests.* FROM requests requests, rides rides WHERE (requests.to_user = $user_id OR requests.from_user = $user_id) AND requests.confirmed=1 AND (rides.return_time  + 3600 > $time) AND rides.id = requests.ride_id ORDER BY requests.id DESC");
 	while($row = mysql_fetch_array($confirmed_resource)) {
 		$ride = $row['ride_id'];
 		$ride = mysql_query("SELECT * FROM rides WHERE id=$ride");

@@ -20,6 +20,10 @@ $rides = array();
 while($row = mysql_fetch_array($result)) {
 	$row['leave_time'] = timestamp_to_time($row['leave_time']);
 	$row['return_time'] = timestamp_to_time($row['return_time']);
+	$user_id = $row['user'];
+	$user = mysql_query("SELECT * FROM users WHERE id = $user_id");
+	$user = mysql_fetch_array($user);
+	$row['user_info'] = $user;
 	$rides[] = $row;
 }
 

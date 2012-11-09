@@ -38,9 +38,6 @@ require_once('request_counting.php');
                 <h3>
                     Main Menu
                 </h3>
-                <a data-role="button" data-rel="back" href="#page1" class="ui-btn-left">
-                    Back
-                </a>
             </div>
             <div data-role="content">
                 <h2>

@@ -1,3 +1,10 @@
+<?
+
+header('Location: ../map/app.php');
+exit;
+
+?>
+
 <!DOCTYPE html>
 <html>
     <head>

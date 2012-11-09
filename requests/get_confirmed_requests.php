@@ -7,7 +7,8 @@ require_once('db.php');
 $user_id = $_SESSION['user'];
 
 $time = time();
-$result = mysql_query("SELECT DISTINCT requests.* FROM requests requests, rides rides WHERE (requests.to_user = $user_id OR requests.from_user = $user_id) AND requests.confirmed=1 AND (rides.return_time  + 3600) > $time ORDER BY requests.id DESC");
+
+$result = mysql_query("SELECT DISTINCT requests.* FROM requests requests, rides rides WHERE (requests.to_user = $user_id OR requests.from_user = $user_id) AND requests.confirmed=1 AND (rides.return_time  + 3600 > $time) AND rides.id = requests.ride_id ORDER BY requests.id DESC");
 
 if(!$result) exit;
 
