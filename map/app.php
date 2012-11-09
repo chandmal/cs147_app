@@ -165,7 +165,7 @@ require_once('user.php');
 					<option name="12">12</option>
 					<?php
 						for($i = 1; $i <= 12; $i++) { 
-							$selected = $i == (date('g') + 1) ? "selected" : "";
+							$selected = $i == (date('g') + 1) % 12 ? "selected" : "";
 								?>
 							<option name="<?php echo $i ?>" <?= $selected ?>><?php echo $i ?></option>
 					<?php

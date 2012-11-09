@@ -4,9 +4,12 @@ $path = '/afs/ir.stanford.edu/users/h/o/holstein/cgi-bin/dev/cs147_app/lib';
 set_include_path(get_include_path() . PATH_SEPARATOR . $path);
 require_once('db.php');
 
-$surveys = mysql_query("SELECT * FROM requests WHERE confirmed = 1 AND paid = 1 AND has_been_surveyed = 0");
+$time = time();
+$surveys = mysql_query("SELECT * FROM requests, rides WHERE requests.confirmed = 1 AND requests.paid = 1 AND requests.has_been_surveyed = 0 AND (rides.id = requests.ride_id AND rides.return_time < $time)");
+
 while($survey = mysql_fetch_array($surveys))
 {
+
 $ride_id = $survey['ride_id'];
 $ride = mysql_query("SELECT * FROM rides WHERE id=$ride_id");
 $ride = mysql_fetch_array($ride);
@@ -20,12 +23,12 @@ $from_user = mysql_query("SELECT * FROM users WHERE id=$from_user_id");
 $from_user = mysql_fetch_array($from_user);
 
 sendSurvey($to_user, $from_user, $ride);
-//sendSurvey($from_user, $to_user, $ride);
+sendSurvey($from_user, $to_user, $ride);
+
+$id = $survey[0];
+mysql_query("UPDATE requests SET has_been_surveyed=1 WHERE id=$id");
 
 }
-
-//mark all as surveyed
-//mysql_query("UPDATE requests SET has_been_surveyed = 1 WHERE id > 0");
 
 function sendSurvey($recipient_user, $partner_user, $ride) {
 
