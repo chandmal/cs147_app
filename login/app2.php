@@ -74,6 +74,12 @@
 				}
 			});
 		}
+
+		$("#password").keydown(function(event) {
+			if(event.which == 13) {
+				login();
+			}
+		});
 	
         </script>
     </body>
