@@ -70,11 +70,11 @@ if($_GET['user_type']) {
                             <legend>
                                 I am a:
                             </legend></td><td align="right">
-                            <input <?= $_SESSION['user_type'] == 'driver' ? 'checked="checked"' : "" ?> id="radio3" name="user_type" value="driver" type="radio" onclick="window.location='app.php?user_type=driver'" />
+                            <input <?= $_SESSION['user_type'] == 'driver' ? 'checked="checked"' : "" ?> id="radio3" name="user_type" value="driver" type="radio" onclick="window.location='app2.php?user_type=driver'" />
                             <label id="driver_radio" for="radio3" data-mini="true">
                                 Driver
                             </label></td><td>
-                            <input <?= $_SESSION['user_type'] == 'rider' ? 'checked="checked"' : "" ?> onclick="window.location='app.php?user_type=rider'" id="radio4" name="user_type" value="rider" type="radio" />
+                            <input <?= $_SESSION['user_type'] == 'rider' ? 'checked="checked"' : "" ?> onclick="window.location='app2.php?user_type=rider'" id="radio4" name="user_type" value="rider" type="radio" />
                             <label id="rider_radio" for="radio4" data-mini="true">
                                 Rider
                             </label>
@@ -84,9 +84,9 @@ if($_GET['user_type']) {
 				</table>
 
 		<div data-role="popup" id="popupPanel" data-corners="false" data-theme="none" data-shadow="false" data-tolerance="0,0">
-	    		<a href="#" data-theme="a" data-mini="true" data-ajax="false" data-role="button">Requests</a>
+	    		<a href="../requests/new2.php" data-theme="a" data-mini="true" data-ajax="false" data-role="button">Requests</a>
 	    		<a href="#" data-theme="a" data-mini="true" data-ajax="false" data-role="button" onclick="show_help()">Help</a>
-			<a href="#" data-theme="a" data-mini="true" data-ajax="false" data-role="button">Logout</a>
+			<a href="../main/logout2.php" data-theme="a" data-mini="true" data-ajax="false" data-role="button">Logout</a>
 		</div>
 
 			<!-- $('#help_popup').popup('open', { overlayTheme: 'a' }); -->
