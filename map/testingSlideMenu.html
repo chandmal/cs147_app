@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <!-- <meta name="viewport" content="width=device-width, initial-scale=1" /> -->
+		<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+        <title>
+        </title>
+        <link rel="stylesheet" href="http://jquerymobile.com/demos/1.2.0-alpha.1/css/themes/default/jquery.mobile-1.2.0-alpha.1.css" />
+        <link rel="stylesheet" href="my.css" />
+        <style>
+            /*html { height: 100% }
+			body { height: 100%; margin: 0; padding: 0 }*/
+        </style>
+	<style type="text/css">
+		#popupPanel-popup {
+	    	    right: 0 !important;
+	    	    left: auto !important;
+		}
+		#popupPanel {
+		    width: 200px;
+		    height: 100%
+		    border: 1px solid #000;
+		    border-right: none;
+		    background: rgba(0,0,0,.5);
+		    margin: -1px 0;
+		}
+		
+		#popupPanel .ui-btn {
+		    margin: 2em 15px;
+		}
+	</style>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js">
+        </script>
+		<script type="text/javascript"
+			src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBtYm5TmCLumSzzGZjqw_ArsHWcBVEm6b0&sensor=true">
+		</script>
+        <script src="http://jquerymobile.com/demos/1.2.0-alpha.1/js/jquery.mobile-1.2.0-alpha.1.js">
+        </script>
+    </head>
+    <body>
+<!-- Home -->
+        <div data-role="page" id="page1">
+            <div data-theme="a" data-role="header" style="z-index:2;">
+		
+		<a href="#popupPanel" data-iconpos="notext" data-rel="popup" data-transition="slide" data-position-to="window" data-role="button" data-icon="gear"></a>
+
+                <h3 style="margin-left: 0px; margin-right: 0px">
+                    Click Your Destination
+                </h3>
+		<a data-role="button" href="../main/app.php" class="ui-btn-right" rel="external">
+                    Home
+                </a>
+
+            </div>
+			
+			<a data-role="button" onclick="$( '#popupPanel' ).popup('close');"> Hi
+			</a>			
+
+				<script type="text/javascript">	
+					$(document).unbind('pageshow');
+					$(document).bind('pageshow', function(event){ 
+						$( "#popupPanel" ).on({
+		    					popupbeforeposition: function() {
+		        					var h = $( window ).height();
+		        					$( "#popupPanel" ).css( "height", h );
+		    					}
+						});
+					});
+				</script>
+		<div data-role="popup" id="popupPanel" data-corners="false" data-theme="none" data-shadow="false" data-tolerance="0,0">
+			<input type="search" placeholder="Search" id="places_autocomplete" data-mini="true" />
+	    		<button data-theme="a" data-mini="true">Request Menu</button>
+	    		<button data-theme="a" data-mini="true">Rides Made</button>
+			<button data-theme="a" data-mini="true">Help</button>
+	  	  	<button data-theme="a" data-mini="true">Log Out</button>
+
+		</div>
