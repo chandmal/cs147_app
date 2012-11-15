@@ -1,26 +1,25 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>
-        </title>
-	 <link rel="stylesheet" href="http://jquerymobile.com/demos/1.2.0-alpha.1/css/themes/default/jquery.mobile-1.2.0-alpha.1.css" />
-        <link rel="stylesheet" href="my.css" />
-        <style>
-            /* App custom styles */
-        </style>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js">
-        </script>
-        <script src="http://jquerymobile.com/demos/1.2.0-alpha.1/js/jquery.mobile-1.2.0-alpha.1.js"></script>
-        <script src="my.js">
-        </script>
+	<title>Share-A-Ride</title>
+
+       <meta charset="utf-8" />
+	<meta name="apple-mobile-web-app-capable" content="yes">
+ 	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link rel="stylesheet" href="http://jquerymobile.com/demos/1.2.0-alpha.1/css/themes/default/jquery.mobile-1.2.0-alpha.1.css" />
+       <link rel="stylesheet" href="my.css" />
+	<link rel="apple-touch-icon" href="appicon2.png" />
+	<link rel="apple-touch-startup-image" href="startup2.png">
+
+       <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+       <script src="http://jquerymobile.com/demos/1.2.0-alpha.1/js/jquery.mobile-1.2.0-alpha.1.js"></script>
+       <script src="my.js"></script>
     </head>
-    <body onload="fadeOut()">
+    <body>
         <!-- Home -->
         <div data-role="page" id="page1">
-		 <div id="logo" style="position:absolute; z-index:5; width:100%; height:100%; background: url('mockup.png') no-repeat center; background-size:cover">
-	   	</div>
             <div data-theme="a" data-role="header">
                 <h3>
                     Login
@@ -76,9 +75,6 @@
 			});
 		}
 	
-		function fadeOut() {
-			setTimeout(function() {$("#logo").fadeOut(3000);}, 400);
-		}
         </script>
     </body>
 </html>

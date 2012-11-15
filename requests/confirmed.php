@@ -28,7 +28,7 @@ require_once('request_counting.php');
         <script src="my.js">
         </script>
     </head>
-    <body onload="getRequests();$('.ui-btn-icon-top').removeClass('ui-btn-icon-top');">
+    <body onload="getRequests();">
         <!-- Home -->
         <div data-role="page" id="page1">
             <div data-theme="a" data-role="header">
@@ -55,17 +55,17 @@ require_once('request_counting.php');
 
 ?>
                         <li>
-                            <a class="ui-btn-icon-right" href="new.php" data-theme="" rel="external" <?= $data_icon ?>>
+                            <a href="new.php" data-theme="" rel="external" <?= $data_icon ?>>
                                 Requests
                             </a>
                         </li>
                         <li>
-                            <a class="ui-btn-icon-right" href="pending.php" data-theme="" rel="external">
+                            <a href="pending.php" data-theme="" rel="external">
                                 Pending
                             </a>
                         </li>
                         <li>
-                            <a class="ui-btn-icon-right" href="confirmed.php" data-theme="" rel="external" class="ui-btn-active ui-state-persist">
+                            <a class="ui-btn-active ui-state-persist" href="confirmed.php" data-theme="" rel="external" class="ui-btn-active ui-state-persist">
                                 Confirmed
                             </a>
                         </li>
@@ -133,6 +133,9 @@ require_once('request_counting.php');
 				textVisible: true,
 				theme: 'a'
 			});
+
+		  	$('.ui-btn-inner').not(':contains("Home")').css('padding-left', '0');
+			$('.ui-btn-inner').not(':contains("Home")').css('padding-right', '0');
 
 			$.get('get_confirmed_requests.php', function(requests) {
 				requests = eval(requests);

@@ -25,7 +25,7 @@ require_once('request_counting.php');
         <script src="my.js">
         </script>
     </head>
-    <body onload="getRequests();$('.ui-btn-icon-top').removeClass('ui-btn-icon-top');">
+    <body onload="getRequests();">
         <!-- Home -->
         <div data-role="page" id="page1">
             <div data-theme="a" data-role="header">	
@@ -39,13 +39,13 @@ require_once('request_counting.php');
             <div data-role="content" id="content">
                 <div data-role="navbar">
                     <ul>
-                        <li>
-                            <a class="ui-btn-icon-right" href="new.php" rel="external" class="ui-btn-active ui-state-persist">
+                        <li style="padding-right: 0; padding-left:0">
+                            <a href="new.php" rel="external" class="ui-btn-active ui-state-persist">
                                 Requests
                             </a>
                         </li>
                         <li>
-                            <a class="ui-btn-icon-right" href="pending.php" data-theme="" rel="external">
+                            <a style="padding-right: 0; padding-left:0" class="" href="pending.php" data-theme="" rel="external">
                                 Pending
                             </a>
                         </li>
@@ -62,7 +62,7 @@ require_once('request_counting.php');
 			}
 				?>
 
-                            <a class="ui-btn-icon-right" href="confirmed.php" data-theme="" rel="external" <?= $data_icon ?>>
+                            <a style="padding-right: 0; padding-left:0" href="confirmed.php" data-theme="" rel="external" <?= $data_icon ?>>
                                 Confirmed
                             </a>
                         </li>
@@ -111,6 +111,9 @@ require_once('request_counting.php');
 				textVisible: true,
 				theme: 'a'
 			});
+
+		  	$('.ui-btn-inner').not(':contains("Home")').css('padding-left', '0');
+			$('.ui-btn-inner').not(':contains("Home")').css('padding-right', '0');
 
 			$.get('get_to_you_requests.php', function(requests) {
 				requests = eval(requests);
@@ -198,9 +201,16 @@ require_once('request_counting.php');
 				}
 				$("#popup").popup('open', { overlayTheme: "a" });
 			});
-
 			
 		}
+	
+/*
+		$('div[data-role="page"]').live('pageshow',function(event){
+	  	    $('.ui-btn-inner').css({ 
+       		     padding-left:0px;
+			     padding-right:0px;
+		      })
+		})*/
         </script>
     </body>
 </html>
