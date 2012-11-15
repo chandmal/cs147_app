@@ -8,10 +8,6 @@
         </title>
         <link rel="stylesheet" href="http://jquerymobile.com/demos/1.2.0-alpha.1/css/themes/default/jquery.mobile-1.2.0-alpha.1.css" />
         <link rel="stylesheet" href="my.css" />
-        <style>
-            /*html { height: 100% }
-			body { height: 100%; margin: 0; padding: 0 }*/
-        </style>
 	<style type="text/css">
 		#popupPanel-popup {
 	    	    right: 0 !important;
