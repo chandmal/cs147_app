@@ -28,6 +28,7 @@ require_once('user.php');
 		</script>
         <script src="jquery.mobile-1.2.0-alpha.1.js">
         </script>
+	<script src="../lib/tracking/tracking.js"></script>
     </head>
     <body>
         <!-- Home -->
@@ -36,10 +37,10 @@ require_once('user.php');
                 <h3 style="margin-left: 0px; margin-right: 0px">
                     Interact
                 </h3>
-		  <a data-role="button" href="#" class="ui-btn-left" onclick="$('#help_popup').popup('open', { overlayTheme: 'a' });">
+		  <a data-role="button" id="help_open_button" href="#" class="ui-btn-left" onclick="$('#help_popup').popup('open', { overlayTheme: 'a' });">
                     Help
                 </a>
-		  <a data-role="button" href="../main/app.php" class="ui-btn-right" rel="external">
+		  <a data-role="button" id="home_button" href="../main/app.php" class="ui-btn-right" rel="external">
                     Home
                 </a>
             </div>
@@ -72,7 +73,7 @@ require_once('user.php');
 				<li>All rides leave within the next 24 hours only.</li>
 			</ul>
                 </h4>	
-			  <a href="#" data-role="button" data-theme="b" onclick="$('#help_popup').popup('close');"> Back to Map </a>
+			  <a href="#" id="help_close_button" data-role="button" data-theme="b" onclick="$('#help_popup').popup('close');"> Back to Map </a>
 	            </div>
 
 		</div>
@@ -108,7 +109,7 @@ require_once('user.php');
                 		<a id="request_button" data-role="button" data-theme="b">
                     			Request this <?= $_SESSION['user_type'] == "driver" ? "Passenger" : "Ride" ?>
                 		</a>
-						<input onclick="$('#trip_popup').popup('close')" type="submit" value="Back To Map" />
+						<input onclick="$('#trip_popup').popup('close')" type="submit" data-mini="true" value="Back To Map" id="trip_cancel" />
             		</div>
 		</div>	
 
@@ -128,7 +129,7 @@ require_once('user.php');
 							<tr><td>Return:</td><td><span id="my_trip_return_time"></span></td></tr>
 					</table>
                 		</h3>
-                		<a data-role="button" data-theme="b" onclick="$('#my_trip_popup').popup('close')">
+                		<a id="close_own_trip_wo_change" data-role="button" data-theme="b" onclick="$('#my_trip_popup').popup('close')">
                     			Back To Map
                 		</a>
 					<input id="my_trip_cancel" type="submit" value="Cancel This <?= $_SESSION['user_type'] == "driver" ? "Trip" : "Ride" ?>"/>
@@ -223,10 +224,10 @@ require_once('user.php');
                             $<input id="new_trip_rate" type="range" name="slider" value="15" min="0" max="50" data-highlight="false" data-mini="true" /></td>
 				</tr></table>
                         </fieldset>
-                <a onclick="finalizeNewTrip()" data-role="button" data-theme="b" href="#page1" data-mini="true">
+                <a id="confirmNewTripButton" onclick="finalizeNewTrip()" data-role="button" data-theme="b" href="#page1" data-mini="true">
                     Confirm
                 </a>
-				<input onclick="$('#new_trip_popup').popup('close')" type="submit" value="Cancel" data-mini="true" />
+				<input id="new_trip_cancel" onclick="$('#new_trip_popup').popup('close')" type="submit" value="Cancel" data-mini="true" />
             </div>
 		</div>
 
@@ -420,8 +421,8 @@ require_once('user.php');
 
 	function createTripInDb(rate, location, leave_time, return_time) {
 		var data = {};
-		data['lat'] = location['Ya'];
-		data['long'] = location['Za'];
+		data['lat'] = location["$a"];
+		data['long'] = location["ab"];
 		console.log(data['lat'] + " " + data['long'])
 		data['pay'] = rate;
 		data['leave_time'] = leave_time;

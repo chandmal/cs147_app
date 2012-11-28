@@ -27,15 +27,16 @@ require_once('request_counting.php');
         </script>
         <script src="my.js">
         </script>
+	<script src="../lib/tracking/tracking.js"></script>
     </head>
     <body onload="loader()">
         <!-- Home -->
         <div data-role="page" id="page1">
             <div data-theme="a" data-role="header">
-		  <a data-role="button" href="#" onclick="$('#help_popup').popup('open', { overlayTheme: 'a' });" class="ui-btn-left">
+		  <a id="help_button" data-role="button" href="#" onclick="$('#help_popup').popup('open', { overlayTheme: 'a' });" class="ui-btn-left">
                     Help
                 </a>
-                <h3>
+                <h3>	
                     Home
                 </h3>
 		 <a data-role="button" href="logout.php" rel="external" class="ui-btn-right">
@@ -75,7 +76,7 @@ require_once('request_counting.php');
 <li>Return home with your driver</li>
 </ol>
 </h4>
-			  <a href="#" data-role="button" data-theme="b" onclick="$('#help_popup').popup('close');"> Close </a>
+			  <a id="help_close" href="#"data-role="button" data-theme="b" onclick="$('#help_popup').popup('close');"> Close </a>
 	            </div>
 
 		</div>
@@ -87,9 +88,9 @@ require_once('request_counting.php');
                     Hi, <?= $user['first_name'] ?>!
                 </h2>
                 <form action="../tadirections/app.php" method="POST">
-                    <div data-role="fieldcontain">
+                    <div data-role="fieldcontain" style="text-align:center">
                         <fieldset data-role="controlgroup" data-type="horizontal">
-				<table style="width:100%"><tr><td>
+				<table style="text-align:center; margin: auto; border-spacing: 50px 0"><tr><td>
                             <legend>
                                 I am a:
                             </legend></td><td align="right">

@@ -47,7 +47,7 @@
                             <input name="password" id="password" placeholder="Password" value="" type="password" />
                         </fieldset>
                     </div>
-                    <input type="button" data-theme="b" value="Submit" onclick="login()" />
+                    <input id="login_button" type="button" data-theme="b" value="Submit" onclick="login()" />
                 </form>
             </div>
         </div>

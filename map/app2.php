@@ -4,6 +4,7 @@ $path = '/afs/ir.stanford.edu/users/h/o/holstein/cgi-bin/dev/cs147_app/lib';
 set_include_path(get_include_path() . PATH_SEPARATOR . $path);
 require_once('db.php');
 require_once('user.php');
+require_once('request_counting.php');
 
 if(!$_SESSION['user_type'] && !$_GET['user_type']) {
 	$_SESSION['user_type'] = 'driver';
@@ -25,6 +26,7 @@ if($_GET['user_type']) {
         </title>
         <link rel="stylesheet" href="http://jquerymobile.com/demos/1.2.0-alpha.1/css/themes/default/jquery.mobile-1.2.0-alpha.1.css" />
         <link rel="stylesheet" href="my.css" />
+	 <link rel="stylesheet" href="../new_icons/new_icons.css" />
         <style>
             /*html { height: 100% }
 			body { height: 100%; margin: 0; padding: 0 }*/
@@ -60,11 +62,12 @@ if($_GET['user_type']) {
 		    margin: 2em 15px;
 		}
 	</style>
+	<script src="../lib/tracking/tracking.js"></script>
     </head>
     <body>
         <!-- Home -->
         <div data-role="page" id="page1">
-		<a id="settings_button" style="display:none;position:absolute; z-index:100; top:180px" href="#popupPanel" data-iconpos="right" data-rel="popup" data-transition="flow" data-position-to="window" data-role="button" data-mini="true" data-icon="gear" data-theme="a">Menu</a>
+		<a id="settings_button" style="display:none;position:absolute; z-index:100; top:180px" href="#popupPanel" data-iconpos="right" data-rel="popup" data-transition="flow" data-position-to="window" data-role="button" data-mini="true" data-icon="gear" data-theme="e">Menu</a>
 
 	<table id="test" cellspacing="4" style="width:100%; background-color: black"><tr><td style="text-shadow: none; color: white; font-weight:bold">
                             <legend>
@@ -84,9 +87,21 @@ if($_GET['user_type']) {
 				</table>
 
 		<div data-role="popup" id="popupPanel" data-corners="false" data-theme="none" data-shadow="false" data-tolerance="0,0">
-	    		<a href="../requests/new2.php" data-theme="a" data-mini="true" data-ajax="false" data-role="button">Requests</a>
-	    		<a href="#" data-theme="a" data-mini="true" data-ajax="false" data-role="button" onclick="show_help()">Help</a>
-			<a href="../main/logout2.php" data-theme="a" data-mini="true" data-ajax="false" data-role="button">Logout</a>
+
+		<?
+			$num_new_requests = num_new_to_you_requests();
+			$num_new_requests += num_new_confirm_requests();
+
+			$data_icon = "";
+			if($num_new_requests > 0) {
+				$data_icon = ' data-icon="new-';
+				$data_icon .= $num_new_requests <= 9 ? $num_new_requests : "more";
+				$data_icon .= '" data-iconpos="right" ';
+			}
+		?>
+	    		<a id="requests_menu_button" href="../requests/new2.php" data-theme="e" data-mini="true" data-ajax="false" data-role="button" <?= $data_icon ?>>Requests</a>
+	    		<a id="help_menu_button" href="#" data-theme="a" data-mini="true" data-ajax="false" data-role="button" onclick="show_help()">Help</a>
+			<a id="logout_menu_button" href="../main/logout2.php" data-theme="a" data-mini="true" data-ajax="false" data-role="button">Logout</a>
 		</div>
 
 			<!-- $('#help_popup').popup('open', { overlayTheme: 'a' }); -->
@@ -119,7 +134,7 @@ if($_GET['user_type']) {
 				<li>All rides leave within the next 24 hours only.</li>
 			</ul>
                 </h4>	
-			  <a href="#" data-role="button" data-theme="b" onclick="$('#help_popup').popup('close');"> Back to Map </a>
+			  <a id="help_close_button" href="#" data-role="button" data-theme="b" onclick="$('#help_popup').popup('close');"> Back to Map </a>
 	            </div>
 
 		</div>
@@ -155,7 +170,7 @@ if($_GET['user_type']) {
                 		<a id="request_button" data-role="button" data-theme="b">
                     			Request this <?= $_SESSION['user_type'] == "driver" ? "Passenger" : "Ride" ?>
                 		</a>
-						<input onclick="$('#trip_popup').popup('close')" type="submit" value="Back To Map" />
+						<input id="close_trip_popup_wo_request" onclick="$('#trip_popup').popup('close')" type="submit" data-mini="true" value="Back To Map" />
             		</div>
 		</div>	
 
@@ -175,7 +190,7 @@ if($_GET['user_type']) {
 							<tr><td>Return:</td><td><span id="my_trip_return_time"></span></td></tr>
 					</table>
                 		</h3>
-                		<a data-role="button" data-theme="b" onclick="$('#my_trip_popup').popup('close')">
+                		<a id="close_my_trip_wo_cancel" data-role="button" data-theme="b" onclick="$('#my_trip_popup').popup('close')">
                     			Back To Map
                 		</a>
 					<input id="my_trip_cancel" type="submit" value="Cancel This <?= $_SESSION['user_type'] == "driver" ? "Trip" : "Ride" ?>"/>
@@ -270,10 +285,10 @@ if($_GET['user_type']) {
                             $<input id="new_trip_rate" type="range" name="slider" value="15" min="0" max="50" data-highlight="false" data-mini="true" /></td>
 				</tr></table>
                         </fieldset>
-                <a onclick="finalizeNewTrip()" data-role="button" data-theme="b" href="#page1" data-mini="true">
+                <a id="finalizeNewTripButton" onclick="finalizeNewTrip()" data-role="button" data-theme="b" href="#page1" data-mini="true">
                     Confirm
                 </a>
-				<input onclick="$('#new_trip_popup').popup('close')" type="submit" value="Cancel" data-mini="true" />
+				<input id="cancel_new_trip" onclick="$('#new_trip_popup').popup('close')" type="submit" value="Cancel" data-mini="true" />
             </div>
 		</div>
 
@@ -391,7 +406,7 @@ if($_GET['user_type']) {
 		var return_time = $("#end_hour").val() + $("#end_min").val() + $("#end_ampm").val();
 		var trip_id = createTripInDb($("#new_trip_rate").val(), new_trip_location, leave_time, return_time);
 		var trip = new Trip(trip_id, $("#new_trip_rate").val(), <?= $_SESSION['user'] ?>, true, new_trip_location, leave_time, return_time, 0, 0);
-		alert('Your trip was posted!  If someone wants to Share-A-Ride with you, you will receive a notification on your home page.  Click okay to continue browsing the map.');
+		alert('Your trip was posted!  If someone wants to Share-A-Ride with you, you will receive a request from them.  Click okay to continue browsing the map.');
 	}
 	
 	function Trip(id, rate, post_user_id, is_yours, location, leave_time, return_time, thumbs_up, thumbs_down) {
@@ -434,7 +449,7 @@ if($_GET['user_type']) {
 					$.post('request_ride.php', request_ride_params, function(data) {
 					});
 					$('#trip_popup').popup('close');
-					alert('Your request was sent!  When your request is approved, you will receive a notification on your home page.  Click okay to continue browsing the map.');
+					alert('Your request was sent!  When your request is approved, you will receive a request.  Click okay to continue browsing the map.');
 				});
 			});
 
@@ -472,8 +487,8 @@ if($_GET['user_type']) {
 
 	function createTripInDb(rate, location, leave_time, return_time) {
 		var data = {};
-		data['lat'] = location['Ya'];
-		data['long'] = location['Za'];
+		data['lat'] = location["$a"];
+		data['long'] = location["ab"];
 		console.log(data['lat'] + " " + data['long'])
 		data['pay'] = rate;
 		data['leave_time'] = leave_time;
