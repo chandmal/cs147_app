@@ -40,7 +40,7 @@ require_once('user.php');
 		  <a data-role="button" id="help_open_button" href="#" class="ui-btn-left" onclick="$('#help_popup').popup('open', { overlayTheme: 'a' });">
                     Help
                 </a>
-		  <a data-role="button" id="home_button" href="../main/app.php" class="ui-btn-right" rel="external">
+		  <a data-role="button" id="home_button" href="../main/app.php" class="ui-btn-right" data-ajax="false">
                     Home
                 </a>
             </div>

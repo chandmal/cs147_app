@@ -24,7 +24,7 @@
                 <h3>
                     Login
                 </h3>
-                <a data-role="button" data-ajax="false" href="../signup/app.php" class="ui-btn-right">
+                <a data-role="button" rel="external" href="../signup/app.php" class="ui-btn-right">
                     New? Sign up!
                 </a>
             </div>
@@ -47,7 +47,7 @@
                             <input name="password" id="password" placeholder="Password" value="" type="password" />
                         </fieldset>
                     </div>
-                    <input id="login_button" type="button" data-theme="b" value="Submit" onclick="login()" />
+                    <input type="button" data-theme="b" value="Submit" onclick="login()" />
                 </form>
             </div>
         </div>
@@ -61,20 +61,20 @@
 
 			$.ajax({
   				type: 'POST',
-				url: 'login2.php',
+				url: 'login.php',
 				data: $("#login_form").serialize(),
 				async: false
 			}).done(function(data) {
 				data = eval(data);
 				$.mobile.loading('hide');
 				if(data[0] == 1) {
-					document.location = "../map/app2.php";
+					document.location = "../main/app.php";
 				} else {
 					alert(data[1]);
 				}
 			});
 		}
-
+		
 		$("#password").keydown(function(event) {
 			if(event.which == 13) {
 				login();

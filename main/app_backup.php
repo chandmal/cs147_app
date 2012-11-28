@@ -39,7 +39,7 @@ require_once('request_counting.php');
                 <h3>	
                     Home
                 </h3>
-		 <a data-role="button" href="logout.php" data-ajax="false" class="ui-btn-right">
+		 <a data-role="button" href="logout.php" rel="external" class="ui-btn-right">
                     Logout
                 </a>
             </div>
@@ -105,7 +105,7 @@ require_once('request_counting.php');
                         </fieldset>
                     </div>
                 </form>
-		<a id="whereto_button" style="display:none" data-role="button" data-ajax="false" data-theme="b" href="../tadirections/app.php">
+		<a id="whereto_button" style="display:none" data-role="button" rel="external" data-theme="b" href="../tadirections/app.php">
 			Where to?
 		</a>
 		
@@ -120,7 +120,7 @@ require_once('request_counting.php');
 				$data_icon .= '" data-iconpos="right" ';
 			}
 		?>
-		<a id="requests_button" style="display:none" data-role="button" data-ajax="false" data-theme="b" href="../requests/new.php" <?= $data_icon ?>>
+		<a id="requests_button" style="display:none" data-role="button" rel="external" data-theme="b" href="../requests/new.php" <?= $data_icon ?>>
 			My Rides
 		</a>
             </div>

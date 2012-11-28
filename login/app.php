@@ -24,7 +24,7 @@
                 <h3>
                     Login
                 </h3>
-                <a data-role="button" rel="external" href="../signup/app.php" class="ui-btn-right">
+                <a data-role="button" data-ajax="false" href="../signup/app.php" class="ui-btn-right">
                     New? Sign up!
                 </a>
             </div>

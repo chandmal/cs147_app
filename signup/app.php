@@ -36,7 +36,7 @@ require_once('db.php');
                 <h3>
                     Sign Up
                 </h3>
-		  <a data-role="button" data-rel="" rel="external" href="../login/app.php" class="ui-btn-right">
+		  <a data-role="button" data-rel="" data-ajax="false" href="../login/app.php" class="ui-btn-right">
                     Or log in!
                 </a>
             </div>
@@ -44,9 +44,10 @@ require_once('db.php');
                 <h2>
                     So you're new, eh?
                 </h2>
-                <h4>
+                <h4 style="margin-bottom: 0px">
                     Fill out the information so you can start sharing rides today.
                 </h4>
+		  <span style="font-size:12px; color: red">*All fields are required.</span>
                 <form action="" id="signup_form" method="post" data-ajax="false">
                     <div class="ui-grid-a">
                         <div class="ui-block-a">
@@ -127,7 +128,7 @@ require_once('db.php');
                 		<h2>
                     			Great! You're in!
                 		</h2>
-                		<a data-role="button" rel="external" data-theme="b" href="../main/app.php">
+                		<a data-role="button" data-ajax="false" data-theme="b" href="../main/app.php">
                     			Check it out!
                 		</a>
             		</div>

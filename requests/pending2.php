@@ -35,7 +35,7 @@ require_once('request_counting.php');
                 <h3>
                     My Rides
                 </h3>
-                <a data-role="button" href="../map/app2.php?" class="ui-btn-right" rel="external">
+                <a data-role="button" href="../map/app2.php?" class="ui-btn-right" data-ajax="false">
                     Home
                 </a>
             </div>
@@ -56,12 +56,12 @@ require_once('request_counting.php');
 			?>
 
                         <li>
-                            <a href="new2.php" data-inline="false" data-theme="" rel="external" <?= $data_icon ?>>
+                            <a href="new2.php" data-inline="false" data-theme="" data-ajax="false" <?= $data_icon ?>>
                                 Requests
                             </a>
                         </li>
                         <li>
-                            <a class="ui-btn-active ui-state-persist" href="pending2.php" data-theme="" rel="external">
+                            <a class="ui-btn-active ui-state-persist" href="pending2.php" data-theme="" data-ajax="false">
                                 Pending
                             </a>
                         </li>
@@ -76,7 +76,7 @@ require_once('request_counting.php');
 			}
 ?>
                         <li>
-                            <a href="confirmed2.php" data-theme="" rel="external" <?= $data_icon ?>>
+                            <a href="confirmed2.php" data-theme="" data-ajax="false" <?= $data_icon ?>>
                                 Confirmed
                             </a>
                         </li>
@@ -132,7 +132,7 @@ require_once('request_counting.php');
 				if(requests.length == 0) {
 					var caption = "No activity here. Click to go home.";
 					var initial_theme = "a";
-					var button = $('<a href="../map/app2.php" data-role="button" class="ui-content" data-position-to="window" rel="external" data-theme="' + initial_theme + '" data-mini="true">' + caption + '</a>');
+					var button = $('<a href="../map/app2.php" data-role="button" class="ui-content" data-position-to="window" data-ajax="false" data-theme="' + initial_theme + '" data-mini="true">' + caption + '</a>');
 					$("#content").append(button).trigger('create');
 				}
 				for(var i = 0; i < requests.length; i++) {

@@ -32,7 +32,7 @@ require_once('request_counting.php');
                 <h3>
                     My Rides
                 </h3>
-                <a data-role="button" href="../main/app.php" class="ui-btn-right" rel="external">
+                <a data-role="button" href="../main/app.php" class="ui-btn-right" data-ajax="false">
                     Home
                 </a>
             </div>
@@ -40,12 +40,12 @@ require_once('request_counting.php');
                 <div data-role="navbar">
                     <ul>
                         <li style="padding-right: 0; padding-left:0">
-                            <a href="new.php" rel="external" class="ui-btn-active ui-state-persist">
+                            <a href="new.php" data-ajax="false" class="ui-btn-active ui-state-persist">
                                 Requests
                             </a>
                         </li>
                         <li>
-                            <a style="padding-right: 0; padding-left:0" class="" href="pending.php" data-theme="" rel="external">
+                            <a style="padding-right: 0; padding-left:0" class="" href="pending.php" data-theme="" data-ajax="false">
                                 Pending
                             </a>
                         </li>
@@ -62,7 +62,7 @@ require_once('request_counting.php');
 			}
 				?>
 
-                            <a style="padding-right: 0; padding-left:0" href="confirmed.php" data-theme="" rel="external" <?= $data_icon ?>>
+                            <a style="padding-right: 0; padding-left:0" href="confirmed.php" data-theme="" data-ajax="false" <?= $data_icon ?>>
                                 Confirmed
                             </a>
                         </li>
@@ -120,7 +120,7 @@ require_once('request_counting.php');
 				if(requests.length == 0) {
 					var caption = "No activity here. Click to go to home.";
 					var initial_theme = "a";
-					var button = $('<a rel="external" href="../main/app.php" data-role="button" class="ui-content" data-position-to="window" data-theme="' + initial_theme + '" data-mini="true" >' + caption + '</a>');
+					var button = $('<a data-ajax="false" href="../main/app.php" data-role="button" class="ui-content" data-position-to="window" data-theme="' + initial_theme + '" data-mini="true" >' + caption + '</a>');
 					$("#content").append(button).trigger('create');
 				}
 				for(var i = 0; i < requests.length; i++) {

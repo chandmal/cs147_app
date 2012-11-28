@@ -67,8 +67,8 @@ if($_GET['user_type']) {
     <body>
         <!-- Home -->
         <div data-role="page" id="page1">
-		<a id="settings_button" style="display:none;position:absolute; z-index:100; top:180px" href="#popupPanel" data-iconpos="right" data-rel="popup" data-transition="flow" data-position-to="window" data-role="button" data-mini="true" data-icon="gear" data-theme="e">Menu</a>
-
+		<a id="settings_button" style="display:none;position:absolute; z-index:100; top:180px" href="#popupPanel" data-iconpos="right" data-rel="popup" data-transition="flow" data-position-to="window" data-role="button" data-mini="true" data-icon="gear" data-theme="a">Menu</a>
+		<a id="original_location" style="display:none;position:absolute; z-index:100; top:180px" data-transition="flow" data-position-to="window" data-role="button" data-mini="true" data-theme="a">Go to Original Location</a>
 	<table id="test" cellspacing="4" style="width:100%; background-color: black"><tr><td style="text-shadow: none; color: white; font-weight:bold">
                             <legend>
                                 I am a:
@@ -99,7 +99,7 @@ if($_GET['user_type']) {
 				$data_icon .= '" data-iconpos="right" ';
 			}
 		?>
-	    		<a id="requests_menu_button" href="../requests/new2.php" data-theme="e" data-mini="true" data-ajax="false" data-role="button" <?= $data_icon ?>>Requests</a>
+	    		<a id="requests_menu_button" href="../requests/new2.php" data-theme="a" data-mini="true" data-ajax="false" data-role="button" <?= $data_icon ?>>Requests</a>
 	    		<a id="help_menu_button" href="#" data-theme="a" data-mini="true" data-ajax="false" data-role="button" onclick="show_help()">Help</a>
 			<a id="logout_menu_button" href="../main/logout2.php" data-theme="a" data-mini="true" data-ajax="false" data-role="button">Logout</a>
 		</div>
@@ -128,9 +128,13 @@ if($_GET['user_type']) {
                 </h2>
                 <h4>
 			<ul>
-				<li>To view an existing destination, tap on an existing marker on the map.</li><br/>
 				<li>To create a new destination, tap where you want to go.</li><br/>
-				<li>To view your own destinations, tap on your green destination markers.</li><br/>
+				<li><img src="../icons/yours.png" style="padding-right:10px" />To view your own destinations, tap on your own yellow destination markers.</li><br/>
+				<li>To view an existing destination, tap on an existing marker on the map.</li><br/>
+				<ul>
+					<li><img src="../icons/driver.png" style="padding-right:10px" /> represent people who want to share their ride.</li><br/>
+					<li><img src="../icons/rider.png" style="padding-right:10px" /> represent people who want a ride.</li><br/>
+				</ul>
 				<li>All rides leave within the next 24 hours only.</li>
 			</ul>
                 </h4>	
@@ -280,7 +284,7 @@ if($_GET['user_type']) {
 				</select></td></tr>
 				<tr><td>
                             <h5>
-                                Rate:
+                                <?= $_SESSION['user_type'] == "driver" ? "My Rate" : "My Offer" ?>:
                             </h5></td><td colspan="3">
                             $<input id="new_trip_rate" type="range" name="slider" value="15" min="0" max="50" data-highlight="false" data-mini="true" /></td>
 				</tr></table>
@@ -374,6 +378,13 @@ if($_GET['user_type']) {
 		$("#settings_button").css('top', $(document).height() - 50 + 'px');
 		$("#settings_button").css('left', $(document).width() - 85 + 'px');
 		$("#settings_button").css('display', 'block');
+
+		$("#original_location").css('top', $(document).height() - 50 + 'px');
+		$("#original_location").css('left', $(document).width() - 270 + 'px');
+		$("#original_location").css('display', 'block');
+		$("#original_location").click(function() {
+			map.setCenter(new google.maps.LatLng(37.42877627635624, -122.16983346549836))
+		});
 
 	}
 		
